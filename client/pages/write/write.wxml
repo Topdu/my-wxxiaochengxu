@@ -1,0 +1,5 @@
+<!--pages/write/write.wxml-->
+<view>
+  <textarea class='text' bindinput="text" focus='true'></textarea> 
+  <button class='button1'  bindtap='OK'>完成</button> 
+</view>

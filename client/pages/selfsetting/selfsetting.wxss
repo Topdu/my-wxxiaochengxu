@@ -1,0 +1,67 @@
+/* pages/selfsetting/selfsetting.wxss */
+/* pages/components/introduce/introduce.wxss */
+
+.iconPre {
+  width: 60rpx;
+  height: 60rpx;
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  margin-top: -30rpx;
+}
+
+.option2{
+  
+  padding: 80rpx ; 
+  
+  font-size: 39rpx;
+  transition: 0.5s;
+  margin-bottom: 15rpx;
+  margin-top: 30rpx;
+  position: relative;
+  width: 80%;
+  height: 60px;
+
+ 
+ 
+}
+
+
+
+.label-1{
+    margin-bottom: 5px;
+    float: left;
+}
+.label-1__text{
+    display: inline-block;
+
+    text-align: center;
+     width: 54px;
+    height: 27px;
+    font-size: 13px;
+}
+
+
+.label-1__icon {
+    position: relative;
+    margin-right: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    width: 54px;
+    height: 27px;
+    background:   lightgrey ;
+}
+
+.label-1__icon-checked {
+    position: absolute;
+    display: inline-block;
+    vertical-align: middle;
+    top: 1px;
+    left: 1px;
+    width: 54px;
+    height: 27px;  
+    background-color:  #90CFF0;
+}
+
+
+

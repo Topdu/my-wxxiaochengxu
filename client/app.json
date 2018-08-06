@@ -1,0 +1,40 @@
+{
+  "pages": [
+    "pages/schedule/schedule",
+    "pages/index/index",
+    "pages/addCgi/addCgi",
+    "pages/create/create",
+    "pages/setting/setting",
+    "pages/selfsetting/selfsetting",
+    "pages/taskes/taskes",
+    "pages/sharetaskes/sharetaskes",
+    "pages/detail/detail",
+    "pages/write/write",
+    "pages/sharedetail/sharedetail"
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#09BB07",
+    "navigationBarTitleText": "时间计划表",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/schedule/schedule",
+        "text": "日程",
+        "iconPath": "image/sun.png",
+        "selectedIconPath": "image/sun_hl.png"
+      },
+      {
+        "pagePath": "pages/setting/setting",
+        "text": "设置",
+        "iconPath": "image/setting.png",
+        "selectedIconPath": "image/setting_hl.png"
+      }
+    ],
+    "color": "#9d9d9d",
+    "selectedColor": "#576b95"
+  }
+}

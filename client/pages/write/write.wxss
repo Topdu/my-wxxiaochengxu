@@ -1,0 +1,23 @@
+/* pages/write/write.wxss */
+
+page {  
+  display: block;  
+  min-height: 100%;  
+}  
+.text{
+  height: 200rpx;
+  width: 90%;
+  margin: 5%;
+  background-color:  aliceblue
+}
+.button1
+{
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  background-color:  #90CFF0;
+  color: #fff;
+  border-radius: 0px;
+
+  
+}

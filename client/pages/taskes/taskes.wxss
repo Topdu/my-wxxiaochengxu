@@ -1,0 +1,55 @@
+/* pages/taskes/taskes.wxss */
+/* pages/components/taskes/taskes.wxss */
+page {  
+  display: block;  
+  min-height: 100%;  
+  
+  background-color: aliceblue ;
+   font-family:  Microsoft YaHei UI;
+ font-size: 12.75;
+}  
+.notice
+{
+  
+  margin: 3%;
+  background-color: #fff;
+  height: auto;
+
+
+
+}
+.notice0
+{
+  font-size: 30px;
+  margin: 6%;
+  text-align:  center;
+  color:  red;
+}
+.notice1
+{
+  font-size: 20px;
+
+  margin-bottom: 1%;
+  width: 250rpx;
+  text-align: right;
+  float: left
+}
+.notice2
+{
+  font-size: 20px;
+  margin-left: 1%;
+  margin-bottom: 1%;
+  width: 400rpx;
+  float: left
+}
+.button1
+{
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  background-color:  #90CFF0;
+  color: #fff;
+  border-radius: 0px;
+
+  
+}

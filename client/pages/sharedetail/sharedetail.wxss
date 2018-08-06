@@ -1,0 +1,125 @@
+/* pages/sharetaskes/sharetaskes.wxss */
+/* pages/taskes/taskes.wxss */
+/* pages/components/taskes/taskes.wxss */
+page {  
+  display: block;  
+   font-family:  Microsoft YaHei UI;
+ font-size: 20px;
+  background-color: aliceblue 
+}  
+.notice
+{
+  
+  margin: 3%;
+  background-color: #fff;
+  height: auto;
+  max-height: 1050rpx;
+  overflow-y: auto
+
+}
+.notice0
+{
+  font-size: 30px;
+  margin: 6%;
+  text-align:  center;
+  color:  red;
+}
+.notice1
+{
+  font-size: 20px;
+  width:250rpx;
+  text-align: right;
+  float: left;
+}
+.notice2
+{
+  font-size: 20px;
+  margin-left: 1%;
+  width: 400rpx;
+  float: left;
+}
+.notice3
+{
+  font-size: 20px;
+  margin-left: 5%;
+  padding-top: 20rpx;
+  width: 200rpx;
+  text-align: right;
+  float: left;
+
+
+}
+.button1
+{
+
+
+  width: 30%;
+  background-color:  #90CFF0;
+  color: #fff;
+  border-radius: 0px;
+  margin-left: 10%;
+  margin-right: 10%;
+  float: left
+
+  
+}
+.userinfo {
+
+  width: 51rpx;
+  float: left;
+  margin: 5rpx;
+
+}
+.userinfo1 {
+
+  width: 300rpx;
+  float: left;
+
+}
+.userinfo2 {
+
+  width: 100%;
+  margin-top: 5%;
+  margin-left: 5%;
+  float: left
+
+}
+.userinfo-avatar {
+  width: 50rpx;
+  height: 53rpx;
+  margin: 10rpx;
+  border-radius: 50%;
+  float: left
+}
+.userinfo-avatar1 {
+  width: 80rpx;
+  height: 80rpx;
+  margin: 10rpx;
+  border-radius: 50%;
+  float: left
+}
+.userinfo-nickname {
+  color: #aaa;
+  float: left
+}
+.userinfo-nickname1 {
+  color: #aaa;
+  float: left;
+  width: 450rpx;
+  font-size: 18px;
+}
+.userinfo-message {
+  float: left;
+  width: 450rpx;
+  font-size: 18px;
+}
+
+.lemessage{
+  margin-left: 10%;
+  margin-top: 7%;
+
+  width: 300rpx;
+  font-size: 18px;
+  height: auto;
+  color: #576B95
+}

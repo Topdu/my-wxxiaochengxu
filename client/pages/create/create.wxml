@@ -1,0 +1,34 @@
+<!--pages/create/create.wxml-->
+
+<scroll-view bindscroll="scroll" class="scrollBox" scroll-y="{{scrollFlag}}" scroll-top="{{scrollTop}}" scroll-with-animation>
+<form bind:submit="testSubmit" report-submit="true">
+ <view class="section">
+  <textarea bindinput="bindTextAreaBlur1" auto-height placeholder="{{textarea1}}" value='{{textarea1}}'/>
+</view>
+ <view class='option' ><image src='../../image/time_hl.png'class="iconPre"></image>
+ <input  type='text' bindinput='bindTime' placeholder="{{textareatime}}" value='{{textareatime}}' class='input'/>  
+ </view>
+  <view class='option' ><image src='../../image/place.png' class='iconPre'></image> <input  type='text' bindinput='bindInput1' placeholder="{{textarea}}" value='{{textarea}}' class='input'/>  
+</view>
+<view class='option2' ><image src='../../image/icon.png' class='iconPre'></image>
+<checkbox-group class="group" bindchange="checkboxChange">
+  <view class="label-1" wx:for="{{checkboxItems}}">
+    <label>
+      <checkbox hidden value="{{item.name}}" checked="{{item.checked}}"></checkbox>
+      <view class="label-1__icon"><text class="label-1__text">{{item.value}}</text>
+        <view class="label-1__icon-checked" style="opacity:{{item.checked ? 1: 0}}"><text   class="label-1__text">{{item.value}}</text>
+    </view>
+      </view>
+    </label>
+  </view>
+</checkbox-group>
+</view>
+
+<view class='option1' ><image src='../../image/template.png' class='iconPre'></image> 
+  <textarea bindinput="bindTextAreaBlur2"  placeholder="{{textarea2}}" value='{{textarea2}}' class='input1' />
+</view>  
+
+ <button class='view1' formType="submit" >确定</button>
+  </form>
+</scroll-view>
+
