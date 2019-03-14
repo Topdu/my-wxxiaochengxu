@@ -1,4 +1,5 @@
-/* pages/schedule/schedule.wxss */
+/* client/pages/trash/trash.wxss */
+
 page
 {
   background-color: white;
@@ -47,7 +48,7 @@ page
 .notice
 {
   margin:20px 3% 3%;
-  background-color:   aliceblue;
+  background-color:   #CCCCCC;
   height: 100px;
   border-radius: 3px;
   box-shadow: 0px 0px 30px 2px #CCCCCC; 
@@ -64,7 +65,7 @@ page
   font-size: 18px;
   margin: 3%;
   text-align:  center;
-  color:  red;
+  color: #9d9d9d;
   
   width: 15%;
    font-family: Microsoft YaHei;
@@ -98,10 +99,6 @@ page
   color:  #9d9d9d;
   padding-top: 0%;
   padding-left: 10%;
-
-
-  
-
 }
 .notice2
 {
@@ -110,8 +107,7 @@ page
   color:  black;
   font-weight: 550;
   float: left;
-
-  width:500rpx
+  width: 500rpx
  
 }
 .iconPre {
@@ -129,8 +125,6 @@ page
  color:  #9d9d9d;
  margin-bottom: 25rpx;
   width: 90%
-  
-
 }
 .title1
 {
@@ -148,86 +142,17 @@ page
 }
 .see
 {
-
   width: 30%;
   float: left;
-  
   font-size: 30rpx;
-  color:  #CCCCCC
-
+  color:  #9d9d9d
 }
 .alert
 {
-
   width: 30%;
   float: left;
- 
    font-size: 30rpx;
-   color:  #CCCCCC; 
+   color:   #9d9d9d; 
 }
-.weui-navbar {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  position: fixed;
-  z-index: 500;
-  top: 0;
-  width: 100%;
-  border-bottom: 1rpx solid #CCCCCC;
-  background-color: #A8E0FF;
-  box-shadow: 0px 0px 30px 2px #CCCCCC;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-.weui-navbar__item {
-  position: relative;
-  display: block;
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-          flex: 1;
-  padding: 13px 0;
-  text-align: center;
-  font-size: 0;
-  color: aliceblue
-}
-.weui-navbar__item.weui-bar__item_on {
-  color: white;
-}
-.weui-navbar__slider {
-  position: absolute;
-  content: " ";
-  left: 0;
-  bottom: 0;
-  width: 30%;
-  height: 3px;
-  margin-left: 10%;
-  background-color:  white;
-  -webkit-transition: -webkit-transform .3s;
-  transition: -webkit-transform .3s;
-  transition: transform .3s;
-  
-}
-.weui-navbar__title {
-  display: inline-block;
-  font-size: 15px;
-  max-width: 8em;
-  width: auto;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  word-wrap: normal;
-}
-.userinfo-avatar {
-    position: fixed;
-    width: 100rpx;
-    height: 100rpx;
-    margin: 20rpx;
-    border-radius: 50%;
-    bottom: 45px;
-    right: 0px;
-    box-shadow: 0px 0px 30px 2px #CCCCCC; 
-}
-.userinfo-avatar:active
-{
-  box-shadow: 0px 0px 30px 15px #CCCCCC; 
-}
+
+

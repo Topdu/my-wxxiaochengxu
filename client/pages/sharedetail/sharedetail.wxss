@@ -6,15 +6,44 @@ page {
    font-family:  Microsoft YaHei UI;
  font-size: 20px;
   background-color: aliceblue 
-}  
+} 
+
+
 .notice
 {
   
-  margin: 3%;
+  margin-top: 3%;
+  margin-left: 3%;
+  margin-right: 3%;
+  margin-bottom: 1%;
+  background-color: #fff;
+  min-height: 600rpx;
+  overflow-y:hidden;
+  overflow-x:hidden;
+    box-shadow: 0px 0px 10px 1px #F2F2F2;
+    background-image: url(http://www.haowutbquan.cn:8889/image/back2.png);
+    background-size:100% ;
+
+}
+.bottom
+{
+   margin-top:0%;
+   margin-left: 3%;
+  margin-right: 3%;
+  margin-bottom: 3%;
   background-color: #fff;
   height: auto;
-  max-height: 1050rpx;
-  overflow-y: auto
+  overflow-y: auto;
+  overflow-x:hidden;
+    box-shadow: 0px 0px 10px 1px #F2F2F2;
+   
+}
+.noticecon
+{
+  margin-left:100rpx;
+font-size:18px;
+font-weight: 600;
+color:red;
 
 }
 .notice0
@@ -26,17 +55,46 @@ page {
 }
 .notice1
 {
-  font-size: 20px;
+  font-size: 16px;
   width:250rpx;
   text-align: right;
   float: left;
 }
 .notice2
 {
-  font-size: 20px;
+  font-size: 16px;
   margin-left: 1%;
-  width: 400rpx;
+  width: 350rpx;
   float: left;
+}
+.createtime
+{
+font-size:15px;
+margin-right:60rpx;
+margin-bottom:20px;
+text-align:right;
+
+
+
+}
+.name
+{
+ margin-top:15rpx;
+font-size:15px;
+
+margin-right:50rpx;
+text-align:right;
+
+  
+}
+.title
+{
+ 
+font-size:18px;
+font-weight:  800;
+text-align:center;
+margin-bottom: 50rpx;
+
 }
 .notice3
 {
@@ -52,57 +110,71 @@ page {
 .button1
 {
 
+border:1px solid #90CFF0;
+border-radius:5px;
+color:#90CFF0;
+margin-left:80px;
+margin-right:80rpx;
+margin-bottom:26rpx;
+float:left;
+font-size:10px;
+line-height:1.5;
+width:40px;
+padding:0px;
+box-sizing: unset;
 
-  width: 30%;
-  background-color:  #90CFF0;
-  color: #fff;
-  border-radius: 0px;
-  margin-left: 10%;
-  margin-right: 10%;
-  float: left
+
 
   
 }
 .userinfo {
 
-  width: 51rpx;
+  width: 49.5rpx;
   float: left;
-  margin: 5rpx;
+  margin: 3rpx;
 
 }
 .userinfo1 {
 
-  width: 300rpx;
-  float: left;
+width:100%;
+float:right;
+margin-right:30rpx;
+
 
 }
 .userinfo2 {
 
   width: 100%;
-  margin-top: 5%;
-  margin-left: 5%;
-  float: left
+ /* margin-top: 5%;
+  //margin-left: 5%;*/
+  float: left;
+   background-color: #F5F5F5;
+  box-shadow: 0px 0px 30px 2px #F5F5F5;
+ 
 
 }
 .userinfo-avatar {
   width: 50rpx;
   height: 53rpx;
-  margin: 10rpx;
+  margin: 0rpx;
   border-radius: 50%;
-  float: left
+  float: right
 }
 .userinfo-avatar1 {
   width: 80rpx;
   height: 80rpx;
-  margin: 10rpx;
+  margin-left: 50rpx;
+  margin-top: 20rpx;
+
   border-radius: 50%;
   float: left
 }
 .userinfo-nickname {
-  color: #aaa;
-  float: left
+margin-right: 10rpx;
+  float: right
 }
 .userinfo-nickname1 {
+   margin-top: 15rpx;
   color: #aaa;
   float: left;
   width: 450rpx;
@@ -113,13 +185,70 @@ page {
   width: 450rpx;
   font-size: 18px;
 }
+.userinfo-message:active{
+  background-color: #fff;
+}
+
 
 .lemessage{
-  margin-left: 10%;
-  margin-top: 7%;
+ margin-left:10%;
+margin-top:7%;
+width:115rpx;
+font-size:18px;
+height:auto;
+color:#576B95;
+box-shadow:0px 0px 10px 1px #F2F2F2;
+border-radius:3px;
+background-color:#F2F2F2;
 
-  width: 300rpx;
-  font-size: 18px;
-  height: auto;
-  color: #576B95
+}
+
+.btn_delete
+{
+
+width:23px;
+margin-left:auto;
+margin-right:15px;
+font-size:11px;
+
+color:#536286;
+
+
+margin-top:10px;
+
+}
+.btn_delete:active
+{
+background-color: #ccc;
+}
+.replymessage
+{
+
+  font-size:15px;
+  width:500rpx;
+  float:right;
+  background-color:#fff;
+  margin-right:78rpx;
+  border-radius: 5px;
+  margin-bottom: 30rpx;
+}
+.replymessage:active{
+  background-color: #ccc;
+}
+.icong
+{
+  margin: 5px;
+  width: 5px;
+  height: 10px;
+  float: left;
+  border-radius: 10px;
+  background-color:  lightgreen
+}
+.font
+{
+  float:left;
+font-size:11px;
+color:#536286;
+padding-top:4rpx;
+width:460rpx;
 }

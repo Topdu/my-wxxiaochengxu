@@ -20,7 +20,7 @@ Page({
     title: 'title1',
     alpha: '',
     windowHeight: '',
-    tabs: ["收到的", "创建的"],
+    tabs: [{ name: "收到栏", url: 'http://haowutbquan.cn:8889/image/shoujianxiangnoon.png' }, { name: "发布栏", url: 'http://haowutbquan.cn:8889/image/bianjinoon.png'}],
     activeIndex: 0,
     sliderOffset: 0,
     sliderLeft: 0,
@@ -28,13 +28,19 @@ Page({
     i:2,
     ii:2,
     count:0,
-    unlogin:false
+    unlogin:false,
+    url:'',
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
+    wx.showToast({
+      title: '加载中',
+      icon: 'loading',
+      duration: 500
+    })
     var that = this;
     const asd = 'sdasd';
     var message = [];
@@ -68,7 +74,62 @@ Page({
       })
     }
     
-  
+
+    if (userInfo.openId) {
+      wx.request({
+        url: config.service.checkloginUrl,
+        data: {
+          open_id: userInfo.openId,
+
+        },
+        method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+        // header: {}, // 设置请求的 header
+        header: {
+          "Accept": "application/json"
+          // 'content-type': 'application/x-www-form-urlencoded'
+        },
+
+        success: function (res) {
+          //  that.setData({ textdata: res.data });
+          console.log(res.data);
+          if (!res.data.success) {
+
+        
+            try {
+              wx.removeStorageSync('userInfo');
+              wx.showModal({
+                title: '登录',
+                content: '您还未登录，请前往登录',
+                success: function (res) {
+                  if (res.confirm) {
+                    console.log('用户点击确定')
+                    wx.switchTab({
+                      url: '../setting/setting',
+                    })
+                  } else if (res.cancel) {
+                    console.log('用户点击取消')
+
+                  }
+                }
+              })
+            } catch (e) {
+              // Do something when catch error
+              util.showBusy('等待');
+            }
+
+          }
+
+        },
+        fail: function () {
+          // fail
+          console.log("fail")
+        },
+        complete: function () {
+          // complete
+        }
+      })
+
+    }
    
    
     
@@ -85,10 +146,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+  
     var that = this;
     var userInfo = wx.getStorageSync('userInfo');
     if(that.data.show)
     {
+  
       wx.request({
 
         url: config.service.getdataUrl,
@@ -164,7 +227,7 @@ Page({
             geta.push(res.data.data[i][0])
           }
           that.setData({
-
+            tabs: [{ name: "收到栏", url: 'http://haowutbquan.cn:8889/image/shoujianxiangon.png' }, { name: "发布栏", url: 'http://haowutbquan.cn:8889/image/bianjinoon.png' }],
             getdata: geta,
             getdata2: geta,
             show: true,
@@ -186,6 +249,7 @@ Page({
     }
     else
     {
+    
       wx.request({
 
         url: config.service.getcreatedataUrl,
@@ -236,6 +300,7 @@ Page({
             }
           })
           that.setData({
+            tabs: [{ name: "收到栏", url: 'http://haowutbquan.cn:8889/image/shoujianxiangnoon.png' }, { name: "发布栏", url: 'http://haowutbquan.cn:8889/image/bianjion.png' }],
             getcreatedata: res.data.data,
             getdata2: res.data.data,
            
@@ -273,20 +338,6 @@ Page({
   },
 
   /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
@@ -318,83 +369,8 @@ Page({
       }
     })
   },
-  cliked: function () {
-    var that=this
-    wx.navigateTo({
-      url: '../index/index',
-    })
-    // wx.request({
-    //   url: 'http://127.0.0.1:8000/adddata/',
-    //   data: {
-    //     'open_id':'微信',
-    //     'topic':'开会',
-    //     'task_date':'七月',
-    //     'task_place':'九教',
-    //     'task_content':'明天北京交通',
-    //     'task_item': '明天北京交通',
-    //     'create_time': "今天"
-    //   },
-    //   method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-    //   // header: {}, // 设置请求的 header
-    //   header: {
-    //     'content-type': 'application/x-www-form-urlencoded'
-    //   },
-
-    //   success: function (res) {
-    //     //  that.setData({ textdata: res.data });
-    //     console.log(res.data);
-    //     // res = JSON.parse(res.data.data)
-    //     // console.log(res);
-    //     that.setData({
-    //       getdata2: res.data
-    //     })
-
-    //   },
-    //   fail: function () {
-    //     // fail
-    //     console.log("fail")
-    //   },
-    //   complete: function () {
-    //     // complete
-    //   }
-    // })
 
 
-
-  },
-  cliked1: function () {
-    var that = this
-    var userInfo = wx.getStorageSync('userInfo');
-    wx.request({
-      url: 'http://127.0.0.1:8000/getdata/',
-      data: {
-        'open_id': userInfo.openId,
-      },
-      method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-      // header: {}, // 设置请求的 header
-      header: {
-        "Accept": "application/json"
-      },
-
-      success: function (res) {
-        //  that.setData({ textdata: res.data });
-        console.log(res.data);
-        // res = JSON.parse(res.data.data)
-        // console.log(res);
-        that.setData({
-          getdata2: res.data
-        })
-
-      },
-      fail: function () {
-        // fail
-        console.log("fail")
-      },
-      complete: function () {
-        // complete
-      }
-    })
-  },
   deletedata: function (res) {
     console.log(res)
     var that = this;
@@ -416,37 +392,6 @@ Page({
       wx.navigateTo({
         url: '../sharedetail/sharedetail?textarea1=' + that.data.getdata2[that.data.id]['topic'] + '&times=' + that.data.getdata2[that.data.id]['task_date'] + '&taskes1=' + that.data.getdata2[that.data.id]['task_item'] + '&place=' + that.data.getdata2[that.data.id]['task_place'] + '&content=' + that.data.getdata2[that.data.id]['task_content'] + '&open_id=' + that.data.getdata2[that.data.id]['open_id'] + '&create_time=' + that.data.getdata2[that.data.id]['create_time'],
       })
-  
-    //       // wx.request({
-    //       //   url: 'http://127.0.0.1:8000/deletedata/',
-    //       //   data: {
-    //       //     'id': id,
-    //       //     'open_id': open_id
-    //       //   },
-    //       //   method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-    //       //   // header: {}, // 设置请求的 header
-    //       //   header: {
-    //       //     "Accept": "application/json"
-    //       //   },
-
-    //       //   success: function (res) {
-    //       //     //  that.setData({ textdata: res.data });
-    //       //     console.log(res.data);
-    //       //     // res = JSON.parse(res.data.data)
-    //       //     // console.log(res);
-    //       //     that.setData({
-    //       //       getdata2: res.data
-    //       //     })
-
-    //       //   },
-    //       //   fail: function () {
-    //       //     // fail
-    //       //     console.log("fail")
-    //       //   },
-    //       //   complete: function () {
-    //       //     // complete
-    //       //   }
-    //       // })     
     }
     else
     {
@@ -493,14 +438,15 @@ Page({
             orcreate = 0;
           else
             orcreate = 1;
-
+          var userInfo = wx.getStorageSync('userInfo');
           wx.request({
             url: config.service.deletedataUrl,
             data: {
               id: id,
-              open_id: open_id,
+              open_id: userInfo.openId,
+              share_open_id: open_id,
               orcreate: orcreate,
-              create_time: create_time
+              share_create_time: create_time
             },
             method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
             // header: {}, // 设置请求的 header
@@ -514,23 +460,28 @@ Page({
               console.log(res.data);
               // res = JSON.parse(res.data.data)
               // console.log(res);
-              if (orcreate == 1) {
-                that.setData({
-                  getdata2: res.data.data,
-                  getcreatedata: res.data.data
-                })
-              }
-              else {
-                var geta = [];
-                for (var i = 0; i < res.data.data.length; i++) {
-                  geta.push(res.data.data[i][0])
+              if(res.data.success)
+              {
+                util.showSuccess("删除成功")
+                if (orcreate == 1) {
+                  that.setData({
+                    getdata2: res.data.data,
+                    getcreatedata: res.data.data
+                  })
                 }
-                that.setData({
-                  getdata: geta,
-                  getdata2: geta,
-                })
-              }
+                else {
+                  var geta = [];
+                  for (var i = 0; i < res.data.data.length; i++) {
+                    geta.push(res.data.data[i][0])
+                  }
+                  that.setData({
+                    getdata: geta,
+                    getdata2: geta,
+                  })
+                }
 
+              }
+              
 
             },
             fail: function () {
@@ -561,6 +512,7 @@ Page({
     console.log(e.currentTarget.id)
     if (e.currentTarget.id==1)
     {
+      
       if (that.data.getcreatedata.length==0&&that.data.count==0)
       {
         wx.showModal({
@@ -593,6 +545,7 @@ Page({
         
       }
       that.setData({
+        tabs: [{ name: "收到栏", url: 'http://haowutbquan.cn:8889/image/shoujianxiangnoon.png' }, { name: "发布栏", url: 'http://haowutbquan.cn:8889/image/bianjion.png' }],
         show: false,
         getdata2: that.data.getcreatedata
 
@@ -600,8 +553,9 @@ Page({
     }
     if (e.currentTarget.id == 0) {
       console.log(that.data.getdata.length)
-      
+    
       that.setData({
+        tabs: [{ name: "收到栏", url: 'http://haowutbquan.cn:8889/image/shoujianxiangon.png' }, { name: "发布栏", url: 'http://haowutbquan.cn:8889/image/bianjinoon.png' }],
         show: true,
         getdata2: that.data.getdata
       })

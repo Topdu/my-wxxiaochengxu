@@ -1,11 +1,9 @@
 <!--pages/sharetaskes/sharetaskes.wxml-->
 <view class='notice'>
-	<view>
-		<view class='notice0'>群公告</view>
-		<view style="height: 2px;width:90%;background-color:red;border-radius: 5px;  margin-left: 5%;margin-bottom: 5%;"></view>
-		<view class='notice1'>主题：</view>
-		<view class='notice2'>{{textarea1}}</view>
-		<view class='notice1'>活动时间：</view>
+		<view style="height: 260rpx;width:90%;margin-bottom:2%;"></view>
+    <view style='height:400rpx;overflow-y:auto;'>
+		<view class='title'>{{textarea1}}通知</view>
+  	<view class='notice1'>时间：</view>
 		<view class='notice2'>{{times}} </view>
 		<view class='notice1'>地点：</view>
 		<view class='notice2'>{{textarea}} </view>
@@ -13,32 +11,48 @@
 		<view class='notice2'>{{taskes}} </view>
 		<view class='notice1'>内容：</view>
 		<view class='notice2'>{{textarea2}} </view>
-		<view class='notice1'>创建时间：</view>
-		<view class='notice2'>{{create_time}} </view>
-    			<view style="height: 2px;width:90%;background-color:red;border-radius: 5px;  margin-left: 5%;margin-top: 5%;float:left"></view>
+    </view>
+	  <view class='name'>{{nickName}} </view>
+		<view class='createtime'>{{create_time}} </view>
+
+      <button class='button1' bindtap='edit'style='pointer-events:{{isdelete}}'>编辑发布</button>
+    
+<form bind:submit="testSubmit" report-submit="true">
+<picker style='pointer-events:{{isdelete}}' mode="multiSelector" bindchange="bindStartMultiPickerChange" bindtap='pickerTap' bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}"> <button class='button1' formType="submit" style='pointer-events:{{isdelete}}'  >添加提醒</button></picker>
+ 
+  </form>
+</view>  
+<view class='bottom' >
+    		
 		<view class='message'>
 
-			<view class='message2'>
-				<view class="userinfo" wx:for="{{avatarUrls}}">
-					<image class="userinfo-avatar" src="{{item['avatarUrl']}}" background-size="cover"></image>
-				</view>
-				<view class='message1'>已查看通知（共{{num}}人）</view>
-			</view>
-		</view>
-		<view style='float:left;margin-bottom:5%;width:100%'>
-			<view class='lemessage' bindtap='writemessage'>写留言</view>
-			<view wx:for="{{messag}}" style='width:100%;float:left;height:auto'>
-				<view class="userinfo2">
-					<image class="userinfo-avatar1" src="{{item['avatarUrl']}}" background-size="cover"></image>
-        	<view class="userinfo-nickname1">{{item['nickName']}}</view>
-          <view class="userinfo-message">{{item['message']}}</view>
+        <view class='message2'>
+            <view class="userinfo" wx:for="{{avatarUrls}}">
+              <image class="userinfo-avatar" src="{{item['avatarUrl']}}" background-size="cover"></image>
+            </view>
+            <view class='message1'>已查看通知（共{{num}}人）</view>
+            <view style="font: 0px/0px sans-serif;clear: both;display: block"> </view>
         </view>
-        
+		</view>
+		<view style='float:left;margin-bottom:5%;width:100%;overflow-y:auto;height:auto'>
+			<view class='lemessage' bindtap='writemessage'style='pointer-events:{{isdelete}}'>写留言</view>
+			<view wx:for="{{messag}}" style='width:100%;float:left;height:auto'  >
+				<view class="userinfo2">
+          <view bindtap='replymessage'bindlongpress='creater_deletereplymessage'  id='{{index}}' style='pointer-events:{{isdelete}}'>
+            <image class="userinfo-avatar1" src="{{item['avatarUrl']}}" background-size="cover"></image>
+            <view class="userinfo-nickname1">{{item['nickName']}}</view>
+            <view class="userinfo-message">{{item['message']}}</view>
+          </view>
+          <view style="display:{{item['showdelete']}};pointer-events:{{isdelete}}" class='btn_delete' bindtap='deletemessage'>删除</view>
+          <view  class='replymessage'style="display:{{item['showreply']}};pointer-events:{{isdelete}}" bindlongpress='deletereplymessage' id='{{index}}' >
+              <view class='icong'></view>
+             <view class='font'>创建者：  </view> 
+                <view style='color: black;margin-left: 80rpx; font-size: 13px;margin-bottom: 4rpx; float: left;margin-right: 20rpx; '>{{item['replymessage']}}
+                </view> 
+          </view>
+        </view>
       </view>
 		</view>
-	</view>
-	<view style="font: 0px/0px sans-serif;clear: both;display: block"> </view>
 </view>
-<button class='button1' bindtap='edit'>编辑</button>
 
-<button class='button1' open-type="share">+发布</button>
+

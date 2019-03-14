@@ -12,21 +12,23 @@
 
 .option2{
   
-  padding: 80rpx ; 
-  
-  font-size: 39rpx;
-  transition: 0.5s;
-  margin-bottom: 15rpx;
-  margin-top: 30rpx;
-  position: relative;
-  width: 80%;
-  height: 60px;
-
- 
+  padding:10rpx 80rpx;
+font-size:39rpx;
+margin-bottom:15rpx;
+margin-top:30rpx;
+margin-left: 5%;
+width:70%;
+height:180px;
+box-shadow: 0px 0px 30px 2px #ccc;
  
 }
 
-
+.settext
+{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 25rpx;
+  color: darkgrey;
+}
 
 .label-1{
     margin-bottom: 5px;

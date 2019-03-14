@@ -6,23 +6,16 @@ module.exports = async ctx => {
   // if (open_id_object) {
   // 数据库存在 skey ，验证通过
   try {
-    if (ctx.query.trash)
-    {
-
-      ctx.body = {
-      success: true,
-        data: await mysql('testmodel_task').where({ open_id: ctx.query.open_id, ordelete: 1 }).select('*').orderBy('create_time', 'desc')
-      }
-    }
-    else
-    {
-      ctx.body = {
-        success: true,
-        data: await mysql('testmodel_task').where({ open_id: ctx.query.open_id, orcreate: 1, ordelete: 0 }).select('*').orderBy('create_time', 'desc')
-      }
-    }
 
   
+    var alert_num = await mysql('testmodel_task').where({ open_id: ctx.query.open_id, create_time: ctx.query.create_time }).select('alert_num')
+    var alert_num1 = parseInt(alert_num[0].alert_num) + 1
+    await mysql('testmodel_task').update({ alert_num: alert_num1 }).where({ open_id: ctx.query.open_id, create_time: ctx.query.create_time })
+    ctx.body = {
+      success: true,
+      data: alert_num1,
+     
+    }
   } catch (error) {
     ctx.body = {
       success: false,

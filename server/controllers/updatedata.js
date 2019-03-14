@@ -6,8 +6,59 @@ module.exports = async ctx => {
   // if (open_id_object) {
   // 数据库存在 skey ，验证通过
   try {
-    
+   
     var view = await mysql('task_message').where({ open_id: ctx.query.open_id, create_time: ctx.query.create_time }).select('message_info')
+    if (ctx.query.deletemessage == 0) {
+     
+      if (ctx.query.replyopen_id)
+      {
+        var message = JSON.parse(view[0].message_info)
+
+        for (var i = 0; i < message.length; i++) {
+          if (message[i].open_id == ctx.query.replyopen_id) {
+            message[i].replymessage = ctx.query.replymessage
+
+            await mysql('task_message').update({ message_info: JSON.stringify(message) }).where({ open_id: ctx.query.open_id, create_time: ctx.query.create_time })
+            ctx.body = {
+              success: true,
+       
+            }
+
+          }
+            
+          }
+
+        
+      }
+      else
+      {
+        var message = JSON.parse(view[0].message_info)
+        for (var i = 0; i < message.length; i++) {
+          if (message[i].open_id == ctx.query.openidview) {
+            message.splice(i, 1)
+
+            await mysql('task_message').update({ message_info: JSON.stringify(message) }).where({ open_id: ctx.query.open_id, create_time: ctx.query.create_time })
+
+            ctx.body = {
+              success: true,
+
+              data1: await mysql('task_message').where({ open_id: ctx.query.open_id, create_time: ctx.query.create_time }).select('message_info')
+            }
+
+          }
+
+        }
+      }
+
+    
+ 
+  
+    }
+    else
+    {
+
+    
+
     if (view.length == 0) {
       var message = [];
       var mes ={
@@ -34,9 +85,17 @@ module.exports = async ctx => {
         if (message[i].open_id == ctx.query.openidview)
         {
           f=1;
-          message[i].message = ctx.query.message
-          await mysql('task_message').update({ message_info: JSON.stringify(message) }).where({ open_id: ctx.query.open_id, create_time: ctx.query.create_time })
-          break;
+          if (ctx.query.message=='')
+          {
+            break;
+          }
+          else
+          {
+            message[i].message = ctx.query.message
+            await mysql('task_message').update({ message_info: JSON.stringify(message) }).where({ open_id: ctx.query.open_id, create_time: ctx.query.create_time })
+            break;
+          }
+         
         }
     
       }
@@ -51,8 +110,12 @@ module.exports = async ctx => {
         }
         mes.open_id = ctx.query.openidview
         mes.message = ctx.query.message
-        message.push(mes)
-        await mysql('task_message').update({ message_info: JSON.stringify(message) }).where({ open_id: ctx.query.open_id, create_time: ctx.query.create_time })
+        if (ctx.query.message!='')
+        {
+          message.push(mes)
+          await mysql('task_message').update({ message_info: JSON.stringify(message) }).where({ open_id: ctx.query.open_id, create_time: ctx.query.create_time })
+        }
+       
       }
       
 
@@ -62,6 +125,7 @@ module.exports = async ctx => {
       success: true,
       data: viewnum1,
       data1: await mysql('task_message').where({ open_id: ctx.query.open_id, create_time: ctx.query.create_time }).select('message_info')
+    }
     }
   } catch (error) {
     ctx.body = {

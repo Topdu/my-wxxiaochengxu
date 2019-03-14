@@ -37,8 +37,8 @@ Page({
     keys: '',
     keys1: '',
     textarea: '地点',
-    textarea1: '请输入活动主题',
-    textarea2: '       请输入活动具体内容 ',
+    textarea1: '编辑主题（最多12个字）',
+    textarea2: '编辑具体内容 ',
     textareatime:'开始时间--结束时间',
     temNames: ['查看我的日程'],
     // year: date.getFullYear(),
@@ -88,21 +88,36 @@ Page({
       { name: '6', value: '出游' },
       { name: '7', value: '形教课' },
       { name: '8', value: '学习' },
-      { name: '9', value: '班会1' },
-      { name: '10', value: '例会1' },
-      { name: '11', value: '会议1' },
-      { name: '12', value: '团日1' },
-      { name: '13', value: '聚会1' },
-      { name: '14', value: '出游1' },
-      { name: '15', value: '形教课1' },
-      { name: '16', value: '学习1' },
+      { name: '9', value: '约会' },
+      { name: '10', value: '团建' },
+      { name: '11', value: '运动' },
+      { name: '12', value: '工作' },
+
+    ],
+    setcheckboxItems: [
+      { name: '1', value: '班会' },
+      { name: '2', value: '例会' },
+      { name: '3', value: '会议' },
+      { name: '4', value: '团日' },
+      { name: '5', value: '聚会' },
+      { name: '6', value: '出游' },
+      { name: '7', value: '形教课' },
+      { name: '8', value: '学习' },
+      { name: '9', value: '约会' },
+      { name: '10', value: '团建' },
+      { name: '11', value: '运动' },
+      { name: '12', value: '工作' },
+
 
     ],
     selected: [],
     tasknum: 0,
+    taskes1: [],
 
-
-    hidden: false
+    hidden: false,
+    showsetitems:'none',
+    showbtn:'',
+    showbtn1:'none',
   },
   onLoad: function (options) {
     var that = this;
@@ -148,33 +163,53 @@ Page({
         });
     }
     console.log(util.formatTime(new Date()))
-    // wx.request({
-    //   url: 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxb648d10457bb1a9f&secret=cd73a8a55866339f7047e578b4d2f7c5',
-      
-    //   method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-    //   // header: {}, // 设置请求的 header
-    //   header: {
-    //     //"Content-Type": "application/x-www-form-urlencoded"
-    //     "Accept": "application/json"
-    //   },
-    //   success: function (res) {
-    //     console.log(res);
-    //   },
-    //   fail: function () {
-    //     // fail
-    //     console.log("fail")
-    //   },
-    //   complete: function () {
-    //     // complete
-    //   }
-    // })
+  },
+  onShow: function () {
+
+    var that = this;
+    var setselected = wx.getStorageSync('items_num');
+
+    for (var i = 0; i < setselected.length; i++) {
+      that.data.setcheckboxItems[setselected[i] - 1].checked
+        = true;
+    }
+    console.log(that.data.setcheckboxItems)
+    that.setData({
+      setcheckboxItems1: that.data.setcheckboxItems
+
+    })
+
+
+    that.data.selected = wx.getStorageSync('items_num');
+    console.log('1=' + that.data.selected);
+    for (var i = 0; i < that.data.selected.length; i++) {
+      that.data.checkboxItems2[i].value = that.data.checkboxItems3[that.data.selected[i] - 1].value;
+    }
+    that.setData({
+      checkboxItems: that.data.checkboxItems2
+    });
+
+    console.log(this.data.checkboxItems);
+
+
+    {
+      var obj = dateTimePicker.dateTimePicker(that.data.startYear, that.data.endYear);
+      var obj1 = dateTimePicker.dateTimePicker(that.data.startYear, that.data.endYear);
+      // 精确到分的处理，将数组的秒去掉
+      var lastArray = obj1.dateTimeArray.pop();
+      var lastTime = obj1.dateTime.pop();
+
+      that.setData
+        ({
+          dateTime: obj.dateTime,
+          dateTimeArray: obj.dateTimeArray,
+          dateTimeArray1: obj1.dateTimeArray,
+          dateTime1: obj1.dateTime
+        });
+    }
   },
   checkboxChange: function (e) {
     var checked = e.detail.value;
-    // for(var i=0;i<checked.length;i++)
-    // {
-    //   this.data.taskes1[checked[i]-1]='1';
-    // }
     this.data.taskes = ' '
     console.log(checked)
     var changed = {}
@@ -195,6 +230,73 @@ Page({
 
     this.setData(changed)
   },
+  setcheckboxChange: function (e) {
+    var that=this;
+    var setchecked = e.detail.value;
+    console.log(setchecked);
+    if (setchecked.length > 8) {
+      wx.showModal({
+        title: '提示',
+        content: '标签至多设置8个，您可以添加自定义设置！',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+
+            return 0;
+
+          } else if (res.cancel) {
+            return 0;
+
+          }
+        }
+      })
+    }
+    else {
+
+
+      wx.setStorage({
+        key: 'items_num',
+        data: setchecked,
+      });
+      var setchanges = {};
+      var j = 0;
+      // if(setchecked.length<=8)
+      {
+        for (var i = 0; i < this.data.setcheckboxItems1.length; i++) {
+          if (setchecked
+            .indexOf(this.data.setcheckboxItems[i].name) !== -1) {
+            setchanges['setcheckboxItems1[' + i + '].checked'] = true;
+            console.log('this.data.setcheckboxItems1[i].value' + this.data.setcheckboxItems1[i].value);
+            this.data.taskes1[j] = this.data.setcheckboxItems1[i].value;
+            j++;
+
+            console.log(this.data.taskes1)
+            // this.setData({
+            //   taskes: this.data.taskes + ' ' + this.data.setcheckboxItems[i].value
+            // });
+          } else {
+            setchanges['setcheckboxItems1[' + i + '].checked'] = false;
+
+          }
+          console.log('setcheckboxItems1=' + i + '=' + this.data.setcheckboxItems1[i].checked
+          );
+        }
+
+      }
+
+      this.setData(setchanges)
+    }
+    that.data.selected = wx.getStorageSync('items_num');
+    console.log('1=' + that.data.selected);
+    for (var i = 0; i < that.data.selected.length; i++) {
+      that.data.checkboxItems2[i].value = that.data.checkboxItems3[that.data.selected[i] - 1].value;
+    }
+    that.setData({
+      checkboxItems: that.data.checkboxItems2
+    });
+
+    console.log(this.data.checkboxItems);
+  },
   bindTime: function (e) {
     this.setData({
       textareatime: e.detail.value
@@ -212,14 +314,13 @@ Page({
     // console.log(e.detail.value)
   },
   bindTextAreaBlur2: function (e) {
+    console.log(e.detail.value)
     this.setData({
       textarea2: e.detail.value
     })
     // console.log(e.detail.value)
   },
   changeDateTime1(e) {
-
-
     this.setData({
       dateTime1: e.detail.value,
       year1: e.detail.value[0],
@@ -227,15 +328,14 @@ Page({
       day1: e.detail.value[2] + 1,
       hour1: e.detail.value[3],
       minute1: e.detail.value[4],
-
     });
     this.data.keys = '20' + this.data.year1 + '-' + this.data.month1 + '-' + this.data.day1 + ' ' + this.data.hour1 + '时' + this.data.minute1 + '分';
-    // console.log(this.data.year,this.data.month);
+ 
   },
   changeDateTimeColumn1(e) {
     var arr = this.data.dateTime1, dateArr = this.data.dateTimeArray1;
     arr[e.detail.column] = e.detail.value;
-    // console.log(e.detail.value);
+ 
     dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
     this.setData({
       dateTimeArray1: dateArr,
@@ -247,17 +347,13 @@ Page({
     if (res.from === 'button') {
       // 来自页面内转发按钮
       console.log(res.target)
-
     }
     return {
       title: '这是群公告',
       path: 'pages/components/template/template',
-      //  ?textarea1=' + this.data.textarea1 + '&year=' + this.data.year1 + '&month=' + this.data.month1           + '&day=' + this.data.day1 + '&hour=' + this.data.hour1 + '&minute=' + this.data.minute1 + '&               taskes1=' + JSON.stringify(this.data.taskes1) + '&place=' + this.data.textarea+'&content='                     +  this.data.textarea2,
-
       success: function (res) {
         // 转发成功
         console.log(res);
-
       },
       fail: function (res) {
         // 转发失败
@@ -266,10 +362,7 @@ Page({
     };
   },
   bindOk: function () {
-   
-    
   },
-
   onHide: function () {
     this.setData({
       isEmpty: false
@@ -282,60 +375,11 @@ Page({
   },
   testSubmit: function (e) {
     console.log(e)
-    // var self = this;
-    // let _access_token = "12_cJpnIV9lqjSfh5JmzcAP3x3yDp-A1keOcltzcqn1vla-jA9P3vwJC9HFrE37sPHBp74FQkkOPYgAt65vCdH76ParEYwYW-tssf78QtOUIt3rayAOS2ui5vUw6PahFYkHY_aWjBpa9L6QWuz1UIAaACAZNF";
-    // let url = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + _access_token; 
-    // let _jsonData = {
-    //     access_token: _access_token,
-    //   touser: "oufME0Y8Na0e-6uXLmmLfxJVK8Xo",
-    //   template_id: 'NUexdR5OZ48w7H2P1vlcVEu4oE96WMmv06vR-Dpcofw',
-    //     form_id: e.detail.formId,
-    //   page: "pages/schedule/schedule",
-    //     data: {
-    //       "keyword1": { "value": this.data.textarea1, "color": "#173177" },
-    //       "keyword2": { "value": this.data.textareatime, "color": "#173177" },
-    //       "keyword3": { "value": this.data.textarea, "color": "#173177" },
-    //       "keyword4": { "value": "测试数据四", "color": "#173177" },
-    //       "keyword5": { "value": "测试数据一", "color": "#173177" },
-    //       "keyword6": { "value": "测试数据二", "color": "#173177" },
-    //       "keyword7": { "value": this.data.textarea2, "color": "#173177" },
-         
-    //     }
-    //   }
-  
     console.log('20' + this.data.year1 + '-' + this.data.month1 + '-' + this.data.day1)
     var userInfo = wx.getStorageSync('userInfo');
+    console.log(userInfo)
     var create_time = util.formatTime(new Date());
-    // wx.request({
-    //   url: 'http://127.0.0.1:8000/adddata/',
-    //   data: {
-    //     'open_id': userInfo.openId,
-    //     'topic': this.data.textarea1,
-    //     'task_date': this.data.textareatime,
-    //     'task_place': this.data.textarea,
-    //     'task_item': this.data.taskes,
-    //     'task_content': this.data.textarea2,
-    //     'create_time': create_time
-    //   },
-    //   method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-    //   // header: {}, // 设置请求的 header
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
 
-
-    //   success: function (res) {
-    //     //  that.setData({ textdata: res.data });
-    //     console.log(res.data);
-    //   },
-    //   fail: function () {
-    //     // fail
-    //     console.log("fail")
-    //   },
-    //   complete: function () {
-    //     // complete
-    //   }
-    // })
     wx.request({
       url: config.service.adddataUrl,
       data: {
@@ -349,15 +393,10 @@ Page({
         orcreate: 1
       },
       method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-      // header: {}, // 设置请求的 header
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
-        // "Accept": "application/json"
       },
-
-
       success: function (res) {
-        //  that.setData({ textdata: res.data });
         console.log(res.data);
       },
       fail: function () {
@@ -372,23 +411,21 @@ Page({
       {
         url: '../taskes/taskes?textarea1=' + this.data.textarea1 + '&times=' + this.data.textareatime + '&taskes1=' + this.data.taskes + '&place=' + this.data.textarea + '&content=' + this.data.textarea2 + '&open_id=' + userInfo.openId + '&create_time=' + create_time,
       });
-
-
-      // wx.request({
-      //   url: url,
-      //   data: _jsonData,
-      //   method: 'POST',
-      //   success: function (res) {
-      //     console.log(res)
-      //   },
-      //   fail: function (err) {
-      //     console.log('request fail ', err);
-      //   },
-      //   complete: function (res) {
-      //     console.log("request completed!");
-      //   }
-
-      // })
  
+  },
+ exchangeitems:function(){
+   this.setData({
+     showsetitems:'',
+     showbtn1: '',
+     showbtn: 'none',
+   })
+ },
+ showbtn: function () {
+    this.setData({
+      showbtn: '',
+      showbtn1: 'none',
+      showsetitems: 'none',
+    })
   }
+ 
 })

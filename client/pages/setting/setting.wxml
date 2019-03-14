@@ -4,6 +4,7 @@
     <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
     <text class="userinfo-nickname">{{userInfo.nickName}}</text>
   </view> -->
+  <view class="loginview">
   <view class="userinfo">
         <image
             class="userinfo-avatar"
@@ -15,9 +16,14 @@
             <text class="userinfo-nickname" wx:else>{{userInfo.nickName}}</text>
         </view>
     </view>
+    
+    </view>
     <!-- <view bindtap="makeSugar" class="option">
     <image src="../../image/sugar.png" class="iconPre"></image>设置奖励<image src="../../image/right.png" class="right"></image></view> -->
-  <view bindtap="addTemplate" class="option"><image src="../../image/notice.png" class="iconPre"></image>活动通知发布<image src="../../image/right.png" class="right"></image></view>
-  <view bindtap="schedule" class="option" ><image src="../../image/template.png" class="iconPre"></image>查看我的日程<image src="../../image/right.png" class="right"></image></view>
-  <view bindtap="setting" class="option"><image src="../../image/setting_hl.png" class="iconPre"></image>个 性 化 设置<image src="../../image/right.png" class="right"></image></view>
+  <view bindtap="addTemplate" class="option"><image src="../../image/notice.png" class="iconPre"></image><view class='tap'>活动通知发布</view><image src="../../image/right.png" class="right"></image></view>
+  <view bindtap="schedule" class="option" ><image src="../../image/template.png" class="iconPre"></image><view class='tap'>查看我的通知</view><image src="../../image/right.png" class="right"></image></view>
+  <view bindtap="setting" class="option"><image src="../../image/setting_hl.png" class="iconPre"></image><view class='tap'>个 性 化 设置</view><image src="../../image/right.png" class="right"></image></view>
+  <view bindtap='trash' class="option"><image src="http://haowutbquan.cn:8889/image/huishou.png" class="iconPrehuishou"></image><view class='tap' >回  收  站 查看</view><image src="../../image/right.png" class="right"></image></view>
+ 
+<official-account style="width:300px;height:84px"></official-account>
 </view>

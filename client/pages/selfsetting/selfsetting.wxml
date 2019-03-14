@@ -1,14 +1,15 @@
 <!--pages/selfsetting/selfsetting.wxml-->
-<view class='option2' >1.设置标签
-<checkbox-group class='group' bindchange="checkboxChange">
-  <view class="label-1" wx:for="{{checkboxItems1}}">
-    <label>
-      <checkbox hidden value="{{item.name}}" checked="{{item.checked}}"></checkbox>
-      <view class="label-1__icon"><text class="label-1__text">{{item.value}}</text>
-        <view class="label-1__icon-checked" style="opacity:{{item.checked ? 1: 0}}"><text class="label-1__text">{{item.value}}</text>
-    </view>
+<view class='option2' >
+  <text class='settext'>1.设置标签</text>
+  <checkbox-group class='group' bindchange="setcheckboxChange">
+    <view class="label-1" wx:for="{{setcheckboxItems1}}">
+      <label>
+        <checkbox hidden value="{{item.name}}" checked="{{item.checked}}"></checkbox>
+        <view class="label-1__icon"><text class="label-1__text">{{item.value}}</text>
+          <view class="label-1__icon-checked" style="opacity:{{item.checked ? 1: 0}}"><text class="label-1__text">{{item.value}}</text>
       </view>
-    </label>
-  </view>
-</checkbox-group>
+        </view>
+      </label>
+    </view>
+  </checkbox-group>
 </view>

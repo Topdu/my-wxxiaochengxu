@@ -10,13 +10,15 @@
     "pages/sharetaskes/sharetaskes",
     "pages/detail/detail",
     "pages/write/write",
-    "pages/sharedetail/sharedetail"
+    "pages/sharedetail/sharedetail",
+    "pages/remind/remind",
+    "pages/trash/trash"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#09BB07",
-    "navigationBarTitleText": "时间计划表",
+    "navigationBarBackgroundColor": "#A8E0FF",
+    "navigationBarTitleText": "活动通知",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {

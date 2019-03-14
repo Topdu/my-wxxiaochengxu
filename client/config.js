@@ -3,7 +3,7 @@
  */
 
 // 此处主机域名修改成腾讯云解决方案分配的域名
-var host = 'https://xxxx.qcloud.la';
+var host = 'https://haowutbquan.cn';
 
 var config = {
 
@@ -30,6 +30,11 @@ var config = {
         getuserdataUrl: `${host}/weapp/getuserdata`,
         messagedataUrl: `${host}/weapp/messagedata`,
         sendmessageUrl: `${host}/weapp/sendmessage`,
+        updatealert_numUrl: `${host}/weapp/updatealert_num`,
+        insert_remindUrl: `${host}/weapp/insert_remind`,
+        deletereplymessageUrl: `${host}/weapp/deletereplymessage`,
+        checkloginUrl: `${host}/weapp/checklogin`,
+        getremindUrl: `${host}/weapp/getremind`,
     }
 };
 

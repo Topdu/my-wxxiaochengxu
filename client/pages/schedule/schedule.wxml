@@ -2,43 +2,32 @@
 <view class="weui-navbar">
                 <block wx:for-items="{{tabs}}" wx:key="{{index}}">
                     <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
-                        <view class="weui-navbar__title">{{item}}</view>
+                        <view class="weui-navbar__title"> <image style='height:26rpx;width:26rpx;margin-right:5px;' src="{{item.url}}"></image>{{item.name}}</view>
+                      
                     </view>
                 </block>
                 <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
             </view>
 <view style='height:35px'></view>
 
+<view wx:for="{{getdata2}}" bindtap='deletedata' id="{{index}}">
+  <view class='notice' bindlongpress='delect' id="{{index}}" >
+  <view class='notice0' >[通知]</view>
+  <view class='notice2'>{{item['topic']}}
+  
+  </view>
+  <view class='notice3'>{{item['task_place']}}-{{item['task_date']}}</view>
+    <view class='see'hidden="{{show}}"> 
+      <image  src="../../image/user-unlogin.png" style='height:40rpx;width:40rpx;float:left' 
+              background-size="cover"></image>  
+            <view style='height:40rpx;padding-top:4rpx'>{{item['view_num']}}</view></view> 
+    <view class='alert' hidden="{{show}}">
+    <image  src="../../image/time.png" style='height:40rpx;width:40rpx;float:left'
+              background-size="cover"></image> 
+             <view style='height:40rpx;padding-top:4rpx'>  {{item['alert_num']}}</view></view>
+  
 
-<!-- <view wx:for="{{getdata2}}" >
-<view class='notice' >
-<view class='notice0'>[通知]</view>
-<view class='notice2'>{{item['fields']['topic']}}
-<view class='notice3'>{{item['fields']['task_place']}}-{{item['fields']['task_date']}}</view>
-</view>
-  <view class='see'>{{item['fields']['view_num']}}</view>
-  <view class='alert'>{{item['fields']['alert_num']}}</view>
-  <view class='notice4' bindtap='deletedata' id="{{index}}">[删除]</view>
-
-</view>
-</view> -->
-<view wx:for="{{getdata2}}" >
-<view class='notice' bindlongpress='delect' id="{{index}}" >
-<view class='notice0' >[通知]</view>
-<view class='notice2'>{{item['topic']}}
-<view class='notice3'>{{item['task_place']}}-{{item['task_date']}}</view>
-</view>
-   <view class='see'hidden="{{show}}"> 
-     <image  src="../../image/user-unlogin.png" style='height:30rpx;width:30rpx' 
-            background-size="cover"></image>  
-          {{item['view_num']}}</view> 
-  <view class='alert' hidden="{{show}}">
-   <image  src="../../image/time.png" style='height:30rpx;width:30rpx'
-             background-size="cover"></image> 
-             {{item['alert_num']}}</view>
-  <view class='notice4' bindtap='deletedata' id="{{index}}">[详情]</view>
-
-</view>
+  </view>
 </view>
 
 <view style='height:6px'></view>
@@ -48,4 +37,3 @@
             background-size="cover"
             bindtap='addTemplate'
         ></image>
-<!-- <view class='button1'   bindtap='addTemplate'>+发布</view>  -->

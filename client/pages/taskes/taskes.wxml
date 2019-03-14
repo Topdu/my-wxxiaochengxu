@@ -1,17 +1,20 @@
 <!--pages/taskes/taskes.wxml-->
 <view class='notice'>
-<view>
-<view class='notice0'>群公告</view>
-<view style="height: 2px;width:90%;background-color:red;border-radius: 5px;  margin-left: 5%;float:left;margin-bottom: 5%"></view>
-<view class='notice1'>主题：</view><view class='notice2'>{{textarea1}}</view>
-<view class='notice1'>活动时间：</view><view class='notice2'>{{times}} </view>
-<view class='notice1'>地点：</view><view class='notice2'>{{textarea}} </view>
-<view class='notice1'>类型：</view><view class='notice2'>{{taskes}} </view>
-<view class='notice1'>内容：</view><view class='notice2'>{{textarea2}} </view>
-<view style="height: 2px;width:90%;background-color:red;border-radius: 5px;  margin-left: 5%;margin-bottom: 5%;margin-top: 5%;float:left"></view>
-</view>
-<view style="font: 0px/0px sans-serif;clear: both;display: block"> </view>  
-</view>
+		<view style="height: 260rpx;width:90%;margin-bottom:2%;"></view>
+      <view style='height:400rpx;overflow-y:auto;'>
+		<view class='title'>{{textarea1}}通知</view>
+  	<view class='notice1'>时间：</view>
+		<view class='notice2'>{{times}} </view>
+		<view class='notice1'>地点：</view>
+		<view class='notice2'>{{textarea}} </view>
+		<view class='notice1'>类型：</view>
+		<view class='notice2'>{{taskes}} </view>
+		<view class='notice1'>内容：</view>
+		<view class='notice2'>{{textarea2}} </view>
+    </view>
+	  <view class='name'>{{nickName}} </view>
+		<view class='createtime'>{{create_time}} </view>
+</view> 
 
 <button class='button1'   open-type="share">+发布</button> 
 

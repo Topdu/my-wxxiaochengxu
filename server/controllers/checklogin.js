@@ -6,23 +6,19 @@ module.exports = async ctx => {
   // if (open_id_object) {
   // 数据库存在 skey ，验证通过
   try {
-    if (ctx.query.trash)
-    {
+    var message = [];
 
-      ctx.body = {
+ 
+    
+      var mess = await mysql('cSessionInfo').where({ open_id: ctx.query.open_id}).select('user_info')
+      var res = JSON.parse(mess[0]['user_info'])
+      message.push(res)
+
+
+    ctx.body = {
       success: true,
-        data: await mysql('testmodel_task').where({ open_id: ctx.query.open_id, ordelete: 1 }).select('*').orderBy('create_time', 'desc')
-      }
+      data: message,
     }
-    else
-    {
-      ctx.body = {
-        success: true,
-        data: await mysql('testmodel_task').where({ open_id: ctx.query.open_id, orcreate: 1, ordelete: 0 }).select('*').orderBy('create_time', 'desc')
-      }
-    }
-
-  
   } catch (error) {
     ctx.body = {
       success: false,

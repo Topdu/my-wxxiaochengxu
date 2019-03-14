@@ -27,21 +27,24 @@
 }
 .section
 {
-  margin-left: 7%;
-  margin-top: 3%;
-  width: 86%;
-  height: 80px;
+  margin-left: 10%;
+  margin-top: 10%;
+  width: 80%;
+  height: 120rpx;
   background-color:  aliceblue;
   border-radius: 5px;
+  font-size:30rpx;
+  
 }
 .input
 {
-  width: 80%;
-  height: 30px;
-  background-color:  aliceblue;
+  width:80%;
+height:30px;
+background-color:aliceblue;
+padding:5px;
 
-  padding: 5px;
-  position: relative;
+float:right;
+
 }
 .textarea
 {
@@ -81,27 +84,20 @@
   margin-top: -20rpx;
 }
 .iconPre {
-  width: 60rpx;
-  height: 60rpx;
-  position: absolute;
-  top: 50%;
-  left: 20px;
-  margin-top: -30rpx;
+width:60rpx;
+height:60rpx;
+margin-top:10rpx;
+float:left;
+
 }
 .option {
-  
-  padding: 20rpx 150rpx; 
-  
-  font-size: 39rpx;
-  transition: 0.5s;
-  margin-bottom: 15rpx;
-    margin-top: 30rpx;
-  position: relative;
-  width: 80%;
-  height: 30px;
-  border-radius: 5px;
- 
- 
+font-size:30rpx;
+transition:0.5s;
+margin-bottom:30rpx;
+margin-top:50rpx;
+width:80%;
+height:30px;
+margin-left:10%;
 }
 .textarea1
 {
@@ -114,42 +110,48 @@
 }
 .option1{
  
-  padding: 20rpx 150rpx;
-  background: transparent;
+ 
+font-size:30rpx;
+margin-bottom:30rpx;
 
-  font-size: 39rpx;
+width:80%;
+height:120px;
 
-  margin-bottom: 30rpx;
-  position: relative;
-  width: 80%;
-  
-  height: 120px;
-  border-radius: 5px;
+margin-left:10%;
+
  
 }
 .option2{
-  
-  padding: 20rpx 150rpx; 
-  
-  font-size: 39rpx;
-  transition: 0.5s;
-  margin-bottom: 15rpx;
-    margin-top: 30rpx;
-  position: relative;
-  width: 80%;
-  height: 60px;
-  border-radius: 5px;
- 
+
+
+font-size:39rpx;
+transition:0.5s;
+margin-top:50rpx;
+width:80%;
+height:60px;
+margin-left:10%;
+
  
 }
+.group
+{
+  float:right;
+width:83%;
+
+}
+
 .input1
 {
-  width: 80%;
-  height: 120px;
-  background-color:  aliceblue;
+  width:80%;
+height:120px;
+background-color:aliceblue;
+padding:5px;
+float:right;
 
-  padding: 5px;
-  position: relative;
+}
+.inputtopic
+{
+  padding:5px;
 }
 .picker{
   height:30px;
@@ -187,13 +189,14 @@
 
 
 .label-1__icon {
-    position: relative;
-    margin-right: 10px;
-    display: inline-block;
-    vertical-align: middle;
-    width: 54px;
-    height: 27px;
-    background:   lightgrey ;
+   position:relative;
+margin-right:10rpx;
+display:inline-block;
+vertical-align:middle;
+width:54px;
+height:27px;
+background:lightgrey;
+
 }
 
 .label-1__icon-checked {
@@ -218,8 +221,37 @@
   border-radius: 0px;
 
 }
+.func
+{
+  width: 100%;
+  box-shadow: 0px 0px 30px 2px #F2F2F2;
+  background-color: #F2F2F2;
+  height:200rpx;
+
+}
+
+
+.btnitems
+{
+
+margin-left:auto;
+margin-right:55px;
+margin-bottom: 20rpx;
+font-size:9px;
+border-radius:2px;
+-webkit-tap-highlight-color:transparent;
+color:#9d9d9d;
+background-color:#A8E0ff;
+width:40px;
+height:13px;
+margin-top:15rpx;
 
 
 
 
+}
 
+#setitems
+{
+  display: none;
+}

@@ -183,13 +183,13 @@ Github：<https://github.com/goolhanrry/Weapp-Demo-LemonJournal>
 ![](media/20bf8108899e8ade4e090a3f92fef733.png)
 
 使用这些接口之前要在JS文件头加上：
+```javascript
+ var qcloud = require('../../vendor/wafer2-client-sdk/index')
 
->   var qcloud = require('../../vendor/wafer2-client-sdk/index')
+ var config = require('../../config')
 
->   var config = require('../../config')
-
->   var util = require('../../utils/util.js')
-
+ var util = require('../../utils/util.js')
+```
 后端开发就先说这么多
 
 前端的话真没什么要说的，一些组件的使用就要自己开动脑筋进行设计啦，当然可以看看别人的轮子，进行修改，然后自己进行创新。
@@ -310,94 +310,52 @@ Apache和Tomcat不用安装，只需安装Nginx、MySql、Pure-Ftpd、PHP、PM2�
 打开/www/server/nginx/conf/下的nginx.conf文件：
 
 在 include /www/server/panel/vhost/nginx/\*.conf; 前面添加：
-
->   upstream app_weapp {
-
->   server localhost:5757;
-
->   keepalive 8;
-
->   }
-
->   server {
-
->   listen 80;
-
->   server_name www.haowutbquan.cn;
-
->   rewrite \^(.\*)\$ https://\$server_name\$1 permanent;
-
->   }
-
->   server {
-
->   listen 443;
-
->   server_name www.haowutbquan.cn;
-
->   ssl on;
-
->   root /www/wwwroot/www.haowutbquan.cn;
-
->   index index.php index.html index.htm ;
-
->   include enable-php.conf;
-
->   ssl_certificate cert/1788210_haowutbquan.cn.pem;
-
->   ssl_certificate_key cert/1788210_haowutbquan.cn.key;
-
->   ssl_session_timeout 5m;
-
->   ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-
->   ssl_ciphers
->   ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA;
-
->   ssl_session_cache shared:SSL:50m;
-
->   ssl_prefer_server_ciphers on;
-
->   location \~ \\.php{
-
->   root /www/wwwroot/www.haowutbquan.cn;
-
->   fastcgi_pass 127.0.0.1:9000;
-
->   fastcgi_index index.php;
-
->   fastcgi_param SCRIPT_FILENAME
->   /www/wwwroot/www.haowutbquan.cn\$fastcgi_script_name;
-
->   fastcgi_split_path_info \^(.+\\.php)(.\*)\$;
-
->   fastcgi_param PATH_INFO \$fastcgi_path_info;
-
->   include fastcgi_params;
-
->   fastcgi_param HTTPS on;
-
->   }
-
->   location / {
-
->   index index.php index.html index.htm;
-
->   proxy_pass http://app_weapp;
-
->   proxy_http_version 1.1;
-
->   proxy_set_header Upgrade \$http_upgrade;
-
->   proxy_set_header Connection 'upgrade';
-
->   proxy_set_header Host \$host;
-
->   proxy_cache_bypass \$http_upgrade;
-
->   }
-
->   }
+```json
+upstream app_weapp {
+    server localhost:5757;
+    keepalive 8;
+} 
+server {
+    listen      80;
+    server_name www.haowutbquan.cn;
+ 
+    rewrite ^(.*)$ https://$server_name$1 permanent;
+} 
+server {
+    listen      443;
+    server_name www.haowutbquan.cn;
+    ssl on;
+  root /www/wwwroot/www.haowutbquan.cn;
+    index  index.php index.html index.htm ;
+ include enable-php.conf;
+  ssl_certificate  cert/1788210_haowutbquan.cn.pem;
+    ssl_certificate_key cert/1788210_haowutbquan.cn.key;
+    ssl_session_timeout       5m;
+    ssl_protocols             TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers               ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA;
+    ssl_session_cache         shared:SSL:50m;
+    ssl_prefer_server_ciphers on;
+ location ~ \.php{
+            root /www/wwwroot/www.haowutbquan.cn;
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_param  SCRIPT_FILENAME  /www/wwwroot/www.haowutbquan.cn$fastcgi_script_name;
+            fastcgi_split_path_info ^(.+\.php)(.*)$;    
+            fastcgi_param PATH_INFO $fastcgi_path_info;  
+            include        fastcgi_params;
+            fastcgi_param HTTPS on; 
+        }
+    location / {
+ index  index.php index.html index.htm;
+        proxy_pass http://app_weapp;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
 
 ![](media/a307722a3ee443354fb5fcfde7f5aa39.png)
 
@@ -441,111 +399,68 @@ weapp文件夹（weapp文件夹的名称不能改），然后将server文件夹�
 建议使用FileZilla、Transmit 等 FTP 工具连接上服务器然后上传上面的文件
 
 然后配置weapp/文件夹下的config.js文件：
-
+```json
 const CONF = {
+    port: '5757',
+    rootPathname: ' /www/wwwroot/www.haowutbquan.cn/ ',//修改为自己的站点目录
 
-port: '5757',
+    // 微信小程序 App ID
+    appId: '',
 
-rootPathname: ' /www/wwwroot/www.haowutbquan.cn/ ',//修改为自己的站点目录
+    // 微信小程序 App Secret
+    appSecret: '',
 
-// 微信小程序 App ID
+    // 是否使用腾讯云代理登录小程序
+    useQcloudLogin: false,
 
-appId: '',
+    /**
+     * MySQL 配置，用来存储 session 和用户信息
+     * 若使用了腾讯云微信小程序解决方案
+     * 开发环境下，MySQL 的初始密码为您的微信小程序 appid
+     */
+    mysql: {
+        host: 'localhost',
+        port: 3306,
+        user: 'root',
+        db: 'cAuth',//数据库名字不能变
+        pass: '云数据库密码',//可在宝塔操作面板数据库创建
+        char: 'utf8mb4'
+    },
 
-// 微信小程序 App Secret
+    cos: {
+        /**
+         * 区域
+         * 华北：cn-north
+         * 华东：cn-east
+         * 华南：cn-south
+         * 西南：cn-southwest
+         * 新加坡：sg
+         * @see https://cloud.tencent.com/document/product/436/6224
+         */
+        region: 'cn-south',
+        // Bucket 名称
+        fileBucket: 'qcloudtest',
+        // 文件夹
+        uploadFolder: ''
+    },
 
-appSecret: '',
+    // 微信登录态有效期
+    wxLoginExpires: 7200,
 
-// 是否使用腾讯云代理登录小程序
-
-useQcloudLogin: false,
-
-/\*\*
-
-\* MySQL 配置，用来存储 session 和用户信息
-
-\* 若使用了腾讯云微信小程序解决方案
-
-\* 开发环境下，MySQL 的初始密码为您的微信小程序 appid
-
-\*/
-
-mysql: {
-
-host: 'localhost',
-
-port: 3306,
-
-user: 'root',
-
-db: 'cAuth',//数据库名字不能变
-
-pass: '云数据库密码',//可在宝塔操作面板数据库创建
-
-char: 'utf8mb4'
-
-},
-
-cos: {
-
-/\*\*
-
-\* 区域
-
-\* 华北：cn-north
-
-\* 华东：cn-east
-
-\* 华南：cn-south
-
-\* 西南：cn-southwest
-
-\* 新加坡：sg
-
-\* \@see https://cloud.tencent.com/document/product/436/6224
-
-\*/
-
-region: 'cn-south',
-
-// Bucket 名称
-
-fileBucket: 'qcloudtest',
-
-// 文件夹
-
-uploadFolder: ''
-
-},
-
-// 微信登录态有效期
-
-wxLoginExpires: 7200,
-
-// 其他配置 ...
-
-serverHost: '你的域名',
-
-tunnelServerUrl: 'http://tunnel.ws.qcloud.la',
-
-tunnelSignatureKey: '27fb7d1c161b7ca52d73cce0f1d833f9f5b5ec89',
-
-// 腾讯云相关配置可以查看云 API
-密钥控制台：https://console.cloud.tencent.com/capi
-
-qcloudAppId: '你的腾讯云 AppID',
-
-qcloudSecretId: '你的腾讯云 SecretId',
-
-qcloudSecretKey: '你的腾讯云 SecretKey',
-
-wxMessageToken: 'weixinmsgtoken',
-
-networkTimeout: 30000
-
+    // 其他配置 ...
+    serverHost: '你的域名',
+    tunnelServerUrl: 'http://tunnel.ws.qcloud.la',
+    tunnelSignatureKey: '27fb7d1c161b7ca52d73cce0f1d833f9f5b5ec89',
+      // 腾讯云相关配置可以查看云 API 密钥控制台：https://console.cloud.tencent.com/capi
+    qcloudAppId: '你的腾讯云 AppID',
+    qcloudSecretId: '你的腾讯云 SecretId',
+    qcloudSecretKey: '你的腾讯云 SecretKey',
+    wxMessageToken: 'weixinmsgtoken',
+    networkTimeout: 30000
 }
 
 module.exports = CONF
+```
 
 ### 安装依赖
 
@@ -556,17 +471,17 @@ module.exports = CONF
 在weapp目录下面
 
 输入以下命令切换 npm 源到腾讯云镜像，防止官方镜像下载失败：
-
+```
 npm config set registry http://mirrors.tencentyun.com/npm/
-
+```
 接着安装全局依赖：
-
+```
 npm install -g pm2
-
+```
 然后安装本地依赖：
-
+```
 npm install
-
+```
 ![](media/5dc6589e4cd025ef77596c9cd649d0ba.png)
 
 接着对数据库进行初始化，在宝塔登录面板中创建数据库：
@@ -578,17 +493,17 @@ npm install
 接着返回远程连接，使用 Demo 代码里的 tools/initdb.js 工具
 
 ### 初始化数据库：
-
+```
 node tools/initdb.js
-
+```
 初始化成功则会提示“数据库初始化成功！”
 
 接着执行如下代码
 
 ### 启动 Node.js
-
+```
 node app.js
-
+```
 这个使用远程连接开启node.js进程后，如果管理远程连接，node.js进程就会关闭，因为想要小程序后台环境一直运行，app.js就要一直运行，所以使用下面的方法进行操作：
 
 连接阿里云服务器，启动nodejs服务，客户端掉线，服务也会终止。如何在客户端掉线的情况下，node服务正常运行？
@@ -598,28 +513,28 @@ node app.js
 forever是一个nodejs守护进程，完全由命令行操控。forever会监控nodejs服务，并在服务挂掉后进行重启。
 
 #### forever安装
-
+```
 npm install -g forever
-
+```
 #### forever使用
-
+```
 forever start app.js //index.js是你要启动的js文件
 
 forever list //会列出forever正在运行的服务脚本
 
 forever stop app.js //停止服务运行
-
+```
 查看帮助信息：
-
+```
 forever --help
-
+```
 ### 完成
 
 顺利完成以上操作，就完成了 Wafer Demo 在自己服务器上的部署。直接访问
 http://你的域名/weapp/login，会提示：
-
+```
 {"code":-1,"error":"ERR_HEADER_MISSED"}
-
+```
 则表示配置成功。你现在可以使用开发者工具来进行联调测试啦！
 
 ![](media/abdb8c752a1139b5e6969ecdc0462f3a.png)
@@ -650,41 +565,25 @@ http://你的域名/weapp/login，会提示：
 <https://developers.weixin.qq.com/miniprogram/dev/api/getAccessToken.html>
 
 我是使用php进行的接口调用：
-
-\$url='https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=你的APPID&secret=你的'
-appSecret;
-
-\$curls = curl_init();
-
-curl_setopt(\$curls, CURLOPT_URL, \$url);
-
-curl_setopt(\$curls, CURLOPT_SSL_VERIFYPEER, FALSE);
-
-curl_setopt(\$curls, CURLOPT_SSL_VERIFYHOST, FALSE);
-
-curl_setopt(\$curls, CURLOPT_SSLVERSION, 1);
-
-curl_setopt(\$curls, CURLOPT_POSTFIELDS,1);
-
-curl_setopt(\$curls, CURLOPT_RETURNTRANSFER, 1);
-
-\$output = curl_exec(\$curls);
-
-if (curl_errno(\$curls)) {
-
-echo 'Errno'.curl_error(\$curls);//捕抓异常
-
-}
-
-curl_close(\$curls);
-
-\$result = \$output;
-
->   \$results=(json_decode(\$result, true));
-
-// echo \$results["access_token"];
-
-\$access_token=\$results["access_token"];
+```php
+$url='https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=你的APPID&secret=你的' appSecret;
+        $curls = curl_init();
+        curl_setopt($curls, CURLOPT_URL, $url);
+        curl_setopt($curls, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curls, CURLOPT_SSL_VERIFYHOST, FALSE);
+		curl_setopt($curls, CURLOPT_SSLVERSION, 1);
+        curl_setopt($curls, CURLOPT_POSTFIELDS,1);
+        curl_setopt($curls, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($curls);
+        if (curl_errno($curls)) {
+            echo 'Errno'.curl_error($curls);//捕抓异常
+        }
+        curl_close($curls);
+		$result =  $output;
+$results=(json_decode($result, true));
+					//	 echo $results["access_token"];
+					$access_token=$results["access_token"];
+```
 
 最后\$access_token就是请求的到的接口调用凭证access_token。
 
@@ -738,427 +637,251 @@ curl_close(\$curls);
 通过testSubmit事件触发函数接收form_id
 
 得到这些参数后，通过请求后台php文件，将这些参数信息存储到后台数据库
-
+```javascript
 wx.request({
+      url: 'http://外网ip/insert_remind.php',//这个php文件接收下面的信息将信息存到数据库中
+      data:
+      {
+        touser: "",//用户openid
+        template_id: '',//模板ID
+        form_id: ,//得到的form_id
+        page: "pages/schedule/schedule",
+        remind_time: remind.getTime(),//用户设置 的提醒时间
+        keyword1:,
+        keyword2:,
+        keyword3:,
+        keyword4:,
+        keyword5:,//这几个keywords就是服务通知的信息
+      },
+      method: 'GET',
+      header: {
+        "Accept": "application/json"
+      },
+      success: function (res) {
 
-url:
-'http://外网ip/insert_remind.php',//这个php文件接收下面的信息将信息存到数据库中
-
-data:
-
-{
-
-touser: "",//用户openid
-
-template_id: '',//模板ID
-
-form_id: ,//得到的form_id
-
-page: "pages/schedule/schedule",
-
-remind_time: remind.getTime(),//用户设置 的提醒时间
-
-keyword1:,
-
-keyword2:,
-
-keyword3:,
-
-keyword4:,
-
-keyword5:,//这几个keywords就是服务通知的信息
-
-},
-
-method: 'GET',
-
-header: {
-
-"Accept": "application/json"
-
-},
-
-success: function (res) {
-
-console.log("request successed !")
-
-},
-
-fail: function (err) {
-
-console.log('request fail ', err);
-
-complete: function (res) {
-
-console.log("request completed!");
-
-}
+        console.log("request successed !")
+            },
+      fail: function (err) {
+        console.log('request fail ', err);
+      
+      complete: function (res) {
+        console.log("request completed!");
+      }
 
 })
+```
 
 然后通过后台设置send_remind.php文件，再将这些存储到数据库的信息读出，判断当前时间是否到了用户设置提醒时间，如果到了，就请求发送模板消息接口（sendTemplateMessage），发送模板消息。
 
 #### Insert_remind.php
+```php
+<?php
+ini_set("error_reporting","E_ALL & ~E_NOTICE");
+$touser=$_GET['touser'];//$_POST["touser"];
+$template_id=$_GET['template_id'];//$_POST["template_id"];
+$form_id=$_GET['form_id'];//$_POST["form_id"];
+$page=$_GET['page'];//$_POST["page"];
+$remind_time=$_GET['remind_time'];
+$key1=$_GET['keyword1'];
+	
+$key2=$_GET['keyword2'];
 
-\<?php
+$key3=$_GET['keyword3'];
 
-ini_set("error_reporting","E_ALL & \~E_NOTICE");
+$key4=$_GET['keyword4'];
 
-\$touser=\$_GET['touser'];//\$_POST["touser"];
+$key5=$_GET['keyword5'];
 
-\$template_id=\$_GET['template_id'];//\$_POST["template_id"];
-
-\$form_id=\$_GET['form_id'];//\$_POST["form_id"];
-
-\$page=\$_GET['page'];//\$_POST["page"];
-
-\$remind_time=\$_GET['remind_time'];
-
-\$key1=\$_GET['keyword1'];
-
-\$key2=\$_GET['keyword2'];
-
-\$key3=\$_GET['keyword3'];
-
-\$key4=\$_GET['keyword4'];
-
-\$key5=\$_GET['keyword5'];
-
-\$mysql_server_name = 'localhost';
-
-\$mysql_username = 'root';
-
-\$mysql_password = '';
-
-\$mysql_database = 'cAuth';//hjxt
+$mysql_server_name = 'localhost';
+$mysql_username = 'root';
+$mysql_password = '';
+$mysql_database = 'cAuth';//hjxt
 
 //创建连接
-
-\$conn = mysqli_connect(\$mysql_server_name,\$mysql_username,\$mysql_password);
-
+$conn = mysqli_connect($mysql_server_name,$mysql_username,$mysql_password);
 //check connection
-
-if (!\$conn){
-
-die('连接失败：'.mysqli_error());
-
+if (!$conn){
+    die('连接失败：'.mysqli_error());
 }
+mysqli_query($conn, "set names 'utf8'");
+mysqli_select_db($conn, $mysql_database);
 
-mysqli_query(\$conn, "set names 'utf8'");
+$sql = "insert into message_remind (open_id,remind_time,form_id,key1,key2,key3,key4,key5)values('$touser','$remind_time','$form_id','$key1','$key2','$key3','$key4','$key5')";
+mysqli_query($conn, $sql);
 
-mysqli_select_db(\$conn, \$mysql_database);
-
-\$sql = "insert into message_remind
-(open_id,remind_time,form_id,key1,key2,key3,key4,key5)values('\$touser','\$remind_time','\$form_id','\$key1','\$key2','\$key3','\$key4','\$key5')";
-
-mysqli_query(\$conn, \$sql);
-
-mysqli_close(\$conn);
-
-?\>
-
+mysqli_close($conn);
+?>
+```
 #### Send_remind.php：
-
-\<?php
-
-ini_set("error_reporting","E_ALL & \~E_NOTICE");
-
-\$mysql_server_name = 'localhost';
-
-\$mysql_username = 'root';
-
-\$mysql_password = '';
-
-\$mysql_database = 'cAuth';//hjxt
+```php
+<?php
+ini_set("error_reporting","E_ALL & ~E_NOTICE");
+     
+$mysql_server_name = 'localhost';
+$mysql_username = 'root';
+$mysql_password = '';
+$mysql_database = 'cAuth';//hjxt
 
 //创建连接
-
-\$conn = mysqli_connect(\$mysql_server_name,\$mysql_username,\$mysql_password);
-
+$conn = mysqli_connect($mysql_server_name,$mysql_username,$mysql_password);
 //check connection
-
-if (!\$conn){
-
-die('连接失败：'.mysqli_error());
-
+if (!$conn){
+    die('连接失败：'.mysqli_error());
 }
+mysqli_query($conn, "set names 'utf8'");
+mysqli_select_db($conn, $mysql_database);
 
-mysqli_query(\$conn, "set names 'utf8'");
 
-mysqli_select_db(\$conn, \$mysql_database);
+$remind_time=((int)time());
+$sql1 = "SELECT * FROM `message_remind` where or_remind=0";
+$results1 = mysqli_query($conn, $sql1);
+$row1 = $results1->fetch_all();
+ $num=mysqli_num_rows($results1);
 
-\$remind_time=((int)time());
-
-\$sql1 = "SELECT \* FROM \`message_remind\` where or_remind=0";
-
-\$results1 = mysqli_query(\$conn, \$sql1);
-
-\$row1 = \$results1-\>fetch_all();
-
-\$num=mysqli_num_rows(\$results1);
-
-if(\$num==0)
-
+if($num==0)
 {
-
-echo "没有需要发送的消息";
-
+	echo "没有需要发送的消息";
 }
-
 else
-
 {
-
-for(\$n=0;\$n\<\$num;\$n++)
-
+for($n=0;$n<$num;$n++)
 {
-
-if(((\$row1[\$n][2]))\<=(\$remind_time\*1000))
-
+if((($row1[$n][2]))<=($remind_time*1000))
 {
-
-\$sql = "SELECT \* FROM \`access_token\`";
-
-\$results = mysqli_query(\$conn, \$sql);
-
-\$row = \$results-\>fetch_all();
-
-\$data = json_encode(\$row);
-
-\$id=\$row1[\$n][1];
-
-if(((int)\$row[0][1]+7200)\<((int)time()))
-
+$sql = "SELECT * FROM `access_token`";
+$results = mysqli_query($conn, $sql);
+$row = $results->fetch_all();
+$data = json_encode($row);
+$id=$row1[$n][1];
+if(((int)$row[0][1]+7200)<((int)time()))
 {
-
-\$url='https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential\&appid=wxb648d10457bb1a9f&secret=cd73a8a55866339f7047e578b4d2f7c5';
-
-\$curls = curl_init();
-
-curl_setopt(\$curls, CURLOPT_URL, \$url);
-
-curl_setopt(\$curls, CURLOPT_SSL_VERIFYPEER, FALSE);
-
-curl_setopt(\$curls, CURLOPT_SSL_VERIFYHOST, FALSE);
-
-curl_setopt(\$curls, CURLOPT_SSLVERSION, 1);
-
-curl_setopt(\$curls, CURLOPT_POSTFIELDS,1);
-
-curl_setopt(\$curls, CURLOPT_RETURNTRANSFER, 1);
-
-\$output = curl_exec(\$curls);
-
-if (curl_errno(\$curls)) {
-
-echo 'Errno'.curl_error(\$curls);//捕抓异常
-
+	$url='https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxb648d10457bb1a9f&secret=cd73a8a55866339f7047e578b4d2f7c5';
+        $curls = curl_init();
+        curl_setopt($curls, CURLOPT_URL, $url);
+        curl_setopt($curls, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curls, CURLOPT_SSL_VERIFYHOST, FALSE);
+		curl_setopt($curls, CURLOPT_SSLVERSION, 1);
+        curl_setopt($curls, CURLOPT_POSTFIELDS,1);
+        curl_setopt($curls, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($curls);
+        if (curl_errno($curls)) {
+            echo 'Errno'.curl_error($curls);//捕抓异常
+        }
+        curl_close($curls);
+		$result =  $output;
+                if($result){
+                    echo json_encode(array('state'=>5,'msg'=>$result));
+					$results=(json_decode($result, true));
+					//	 echo $results["access_token"];
+					$access_token=$results["access_token"];
+					$time=(string)time();
+					$sql = "update access_token set access_token = '$access_token',time='$time' "; //VALUES ('$access_token', '$time')中的$access_token不能为$results["access_token"]的形式
+					if (mysqli_query($conn, $sql)) { 
+						echo "guoqi xinjilu".$access_token; 
+						
+					} else { 
+						echo "Error: " . $sql . mysqli_error($conn); 
+					} 
+					
+                }else{
+                    echo json_encode(array('state'=>5,'msg'=>$result));
+                }
 }
-
-curl_close(\$curls);
-
-\$result = \$output;
-
-if(\$result){
-
-echo json_encode(array('state'=\>5,'msg'=\>\$result));
-
-\$results=(json_decode(\$result, true));
-
-// echo \$results["access_token"];
-
-\$access_token=\$results["access_token"];
-
-\$time=(string)time();
-
-\$sql = "update access_token set access_token = '\$access_token',time='\$time'
-"; //VALUES ('\$access_token',
-'\$time')中的\$access_token不能为\$results["access_token"]的形式
-
-if (mysqli_query(\$conn, \$sql)) {
-
-echo "guoqi xinjilu".\$access_token;
-
-} else {
-
-echo "Error: " . \$sql . mysqli_error(\$conn);
-
-}
-
-}else{
-
-echo json_encode(array('state'=\>5,'msg'=\>\$result));
-
-}
-
-}
-
 else
-
 {
-
-\$access_token=\$row[0][0];
-
-echo "weiguoqi".\$row[0][0];
-
+	$access_token=$row[0][0];
+	echo "weiguoqi".$row[0][0];
 }
 
-\$value = array(
 
-"keyword1"=\>array(
 
-"value"=\>\$row1[\$n][4],
+ $value = array(
+              "keyword1"=>array(
+			"value"=>$row1[$n][4],
+			"color"=>"#4a4a4a"
+                    ),
+                    "keyword2"=>array(
+			"value"=>$row1[$n][5],
+                        "color"=>"#9b9b9b"
+                    ),
+                    "keyword3"=>array(
 
-"color"=\>"\#4a4a4a"
-
-),
-
-"keyword2"=\>array(
-
-"value"=\>\$row1[\$n][5],
-
-"color"=\>"\#9b9b9b"
-
-),
-
-"keyword3"=\>array(
-
-"value"=\>\$row1[\$n][6],
-
-"color"=\>"\#9b9b9b"
-
-),
-
-"keyword4"=\>array(
-
-"value"=\>\$row1[\$n][7],
-
-"color"=\>"\#9b9b9b"
-
-),
-
-"keyword5"=\>array(
-
-"value"=\>\$row1[\$n][8],
-
-"color"=\>"\#9b9b9b"
-
-),
-
-);
-
-\$dd = array();
-
-\$dd['touser']=\$row1[\$n][1];
-
-\$dd['template_id']='NUexdR5OZ48w7H2P1vlcVHVERG09fXD8dX53bkd7-E8';
-
-\$dd['page']="pages/schedule/schedule";
-//点击模板卡片后的跳转页面，仅限本小程序内的页面。支持带参数,该字段不填则模板无跳转。
-
-\$dd['form_id']=\$row1[\$n][3];
-
-\$dd['data']=\$value; //模板内容，不填则下发空模板
-
-\$dd['color']=''; //模板内容字体的颜色，不填默认黑色
-
-\$dd['emphasis_keyword']='keyword3.DATA';
-
-// sleep(300);
-
-/\* 发送json格式的数据，到api接口 -xzz0704 \*/
-
-\$type='json';
-
-if(\$type=='json'){//json \$_POST=json_decode(file_get_contents('php://input'),
-TRUE);
-
-\$headers = array("Content-type: application/json;charset=UTF-8","Accept:
-application/json","Cache-Control: no-cache", "Pragma: no-cache");
-
-\$data=json_encode(\$dd);
-
+                        "value"=>$row1[$n][6],
+			"color"=>"#9b9b9b"
+                    ),
+                    "keyword4"=>array(
+                        "value"=>$row1[$n][7],
+			"color"=>"#9b9b9b"
+                    ),
+                    "keyword5"=>array(
+                        "value"=>$row1[$n][8],
+                        "color"=>"#9b9b9b"
+                    ),
+                );
+                
+              
+                $dd = array();
+  
+                $dd['touser']=$row1[$n][1];
+                $dd['template_id']='NUexdR5OZ48w7H2P1vlcVHVERG09fXD8dX53bkd7-E8';
+                $dd['page']="pages/schedule/schedule";  //点击模板卡片后的跳转页面，仅限本小程序内的页面。支持带参数,该字段不填则模板无跳转。
+                $dd['form_id']=$row1[$n][3];
+                
+                $dd['data']=$value;                        //模板内容，不填则下发空模板
+                
+                $dd['color']='';                        //模板内容字体的颜色，不填默认黑色
+           
+                $dd['emphasis_keyword']='keyword3.DATA';
+               // sleep(300);
+     
+               
+    /* 发送json格式的数据，到api接口 -xzz0704  */
+		$type='json';
+        if($type=='json'){//json $_POST=json_decode(file_get_contents('php://input'), TRUE);
+            $headers = array("Content-type: application/json;charset=UTF-8","Accept: application/json","Cache-Control: no-cache", "Pragma: no-cache");
+            $data=json_encode($dd);
+        }
+	$urls='https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token='.$access_token;
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $urls);
+        curl_setopt($curl, CURLOPT_POST, 1); // 发送一个常规的Post请求
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        if (!empty($data)){
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS,$data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers );
+        $output = curl_exec($curl);
+        if (curl_errno($curl)) {
+            echo 'Errno'.curl_error($curl);//捕抓异常
+        }
+        curl_close($curl);
+        	$results =  $output;
+		$flag=json_decode($results ,true);
+		if($flag['errmsg']=='ok')
+		{
+			$sql = "update message_remind set or_remind = 1 where id=$id"; //VALUES ('$access_token', '$time')中的$access_token不能为$results["access_token"]的形式
+			if (mysqli_query($conn, $sql)) { 
+				echo 'ok'; 
+						
+			} else { 
+				echo "Error: " . $sql . mysqli_error($conn); 
+			} 
+		}
+		else
+			echo 'no';
+                if($results){
+                    echo json_encode(array('state'=>5,'msg'=>$results));
+                }else{
+                    echo json_encode(array('state'=>5,'msg'=>$results));
+                }
+ }
 }
-
-\$urls='https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token='.\$access_token;
-
-\$curl = curl_init();
-
-curl_setopt(\$curl, CURLOPT_URL, \$urls);
-
-curl_setopt(\$curl, CURLOPT_POST, 1); // 发送一个常规的Post请求
-
-curl_setopt(\$curl, CURLOPT_SSL_VERIFYPEER, FALSE);
-
-curl_setopt(\$curl, CURLOPT_SSL_VERIFYHOST, FALSE);
-
-if (!empty(\$data)){
-
-curl_setopt(\$curl, CURLOPT_POST, 1);
-
-curl_setopt(\$curl, CURLOPT_POSTFIELDS,\$data);
-
 }
-
-curl_setopt(\$curl, CURLOPT_RETURNTRANSFER, 1);
-
-curl_setopt(\$curl, CURLOPT_HTTPHEADER, \$headers );
-
-\$output = curl_exec(\$curl);
-
-if (curl_errno(\$curl)) {
-
-echo 'Errno'.curl_error(\$curl);//捕抓异常
-
-}
-
-curl_close(\$curl);
-
-\$results = \$output;
-
-\$flag=json_decode(\$results ,true);
-
-if(\$flag['errmsg']=='ok')
-
-{
-
-\$sql = "update message_remind set or_remind = 1 where id=\$id"; //VALUES
-('\$access_token',
-'\$time')中的\$access_token不能为\$results["access_token"]的形式
-
-if (mysqli_query(\$conn, \$sql)) {
-
-echo 'ok';
-
-} else {
-
-echo "Error: " . \$sql . mysqli_error(\$conn);
-
-}
-
-}
-
-else
-
-echo 'no';
-
-if(\$results){
-
-echo json_encode(array('state'=\>5,'msg'=\>\$results));
-
-}else{
-
-echo json_encode(array('state'=\>5,'msg'=\>\$results));
-
-}
-
-}
-
-}
-
-}
-
-mysqli_close(\$conn);
+mysqli_close($conn);	
+```
 
 send_remind.php文件中实现了判断access_token
 接口调用凭证是否过期，过期了会重新请求新的access_token，
@@ -1186,15 +909,12 @@ Message_remind表：
 通过设置每分钟运行send_remind.php，来实现上面的功能：
 
 使用crontab定时器工具来实现
-
-1.  yum install crontabs  //安装
-
-2.  systemctl enable crond  //设置开机启动crond服务
-
-3.  systemctl start crond  //启动crond服务
-
-4.  crontab -e
-
+```
+  yum install crontabs  //安装
+  systemctl enable crond  //设置开机启动crond服务
+  systemctl start crond  //启动crond服务
+  crontab -e  //编写
+```
 ![](media/25c5b4e94528f7be243e3b9edd8a2295.png)
 
 编写想要执行的脚本
@@ -1210,521 +930,299 @@ Message_remind表：
 ### 小程序前端代码
 
 #### 小程序前端js代码：
-
+```javascript
 const app = getApp()
-
 var date = new Date();
-
 var currentHours = date.getHours();
-
 var currentMinute = date.getMinutes();
-
 Page({
-
-data: {
-
-multiArray: [['今天', '明天', '3-2', '3-3', '3-4', '3-5'], [0, 1, 2, 3, 4, 5,
-6], [0, 10, 20]],
-
-multiIndex: [0, 0, 0],
-
-},
-
-onLoad: function () {
-
-console.log('代码片段是一种迷你、可分享的小程序或小游戏项目，可用于分享小程序和小游戏的开发经验、展示组件和
-API 的使用、复现开发问题和 Bug 等。可点击以下链接查看代码片段的详细文档：')
-
-console.log('https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/devtools.html')
-
-},
-
-pickerTap: function () {
-
-date = new Date();
-
-var monthDay = ['今天', '明天'];
-
-var hours = [];
-
-var minute = [];
-
-currentHours = date.getHours();
-
-currentMinute = date.getMinutes();
-
-// 月-日
-
-for (var i = 2; i \<= 28; i++) {
-
-var date1 = new Date(date);
-
-date1.setDate(date.getDate() + i);
-
-var md = (date1.getMonth() + 1) + "-" + date1.getDate();
-
-monthDay.push(md);
-
-}
-
-var data = {
-
-multiArray: this.data.multiArray,
-
-multiIndex: this.data.multiIndex
-
-};
-
-if (data.multiIndex[0] === 0) {
-
-if (data.multiIndex[1] === 0) {
-
-this.loadData(hours, minute);
-
-} else {
-
-this.loadMinute(hours, minute);
-
-}
-
-} else {
-
-this.loadHoursMinute(hours, minute);
-
-}
-
-data.multiArray[0] = monthDay;
-
-data.multiArray[1] = hours;
-
-data.multiArray[2] = minute;
-
-this.setData(data);
-
-},
-
-bindMultiPickerColumnChange: function (e) {
-
-date = new Date();
-
-var that = this;
-
-var monthDay = ['今天', '明天'];
-
-var hours = [];
-
-var minute = [];
-
-currentHours = date.getHours();
-
-currentMinute = date.getMinutes();
-
-var data = {
-
-multiArray: this.data.multiArray,
-
-multiIndex: this.data.multiIndex
-
-};
-
-// 把选择的对应值赋值给 multiIndex
-
-data.multiIndex[e.detail.column] = e.detail.value;
-
-// 然后再判断当前改变的是哪一列,如果是第1列改变
-
-if (e.detail.column === 0) {
-
-// 如果第一列滚动到第一行
-
-if (e.detail.value === 0) {
-
-that.loadData(hours, minute);
-
-} else {
-
-that.loadHoursMinute(hours, minute);
-
-}
-
-data.multiIndex[1] = 0;
-
-data.multiIndex[2] = 0;
-
-// 如果是第2列改变
-
-} else if (e.detail.column === 1) {
-
-// 如果第一列为今天
-
-if (data.multiIndex[0] === 0) {
-
-if (e.detail.value === 0) {
-
-that.loadData(hours, minute);
-
-} else {
-
-that.loadMinute(hours, minute);
-
-}
-
-// 第一列不为今天
-
-} else {
-
-that.loadHoursMinute(hours, minute);
-
-}
-
-data.multiIndex[2] = 0;
-
-// 如果是第3列改变
-
-} else {
-
-// 如果第一列为'今天'
-
-if (data.multiIndex[0] === 0) {
-
-// 如果第一列为 '今天'并且第二列为当前时间
-
-if (data.multiIndex[1] === 0) {
-
-that.loadData(hours, minute);
-
-} else {
-
-that.loadMinute(hours, minute);
-
-}
-
-} else {
-
-that.loadHoursMinute(hours, minute);
-
-}
-
-}
-
-data.multiArray[1] = hours;
-
-data.multiArray[2] = minute;
-
-this.setData(data);
-
-},
-
-loadData: function (hours, minute) {
-
-var minuteIndex;
-
-if (currentMinute \> 0 && currentMinute \<= 10) {
-
-minuteIndex = 10;
-
-} else if (currentMinute \> 10 && currentMinute \<= 20) {
-
-minuteIndex = 20;
-
-} else if (currentMinute \> 20 && currentMinute \<= 30) {
-
-minuteIndex = 30;
-
-} else if (currentMinute \> 30 && currentMinute \<= 40) {
-
-minuteIndex = 40;
-
-} else if (currentMinute \> 40 && currentMinute \<= 50) {
-
-minuteIndex = 50;
-
-} else {
-
-minuteIndex = 60;
-
-}
-
-if (minuteIndex == 60) {
-
-// 时
-
-for (var i = currentHours + 1; i \< 24; i++) {
-
-hours.push(i);
-
-}
-
-// 分
-
-for (var i = 0; i \< 60; i += 5) {
-
-minute.push(i);
-
-}
-
-} else {
-
-// 时
-
-for (var i = currentHours; i \< 24; i++) {
-
-hours.push(i);
-
-}
-
-// 分
-
-for (var i = minuteIndex; i \< 60; i += 5) {
-
-minute.push(i);
-
-}
-
-}
-
-},
-
-loadHoursMinute: function (hours, minute) {
-
-// 时
-
-for (var i = 0; i \< 24; i++) {
-
-hours.push(i);
-
-}
-
-// 分
-
-for (var i = 0; i \< 60; i += 5) {
-
-minute.push(i);
-
-}
-
-},
-
-loadMinute: function (hours, minute) {
-
-var minuteIndex;
-
-if (currentMinute \> 0 && currentMinute \<= 10) {
-
-minuteIndex = 10;
-
-} else if (currentMinute \> 10 && currentMinute \<= 20) {
-
-minuteIndex = 20;
-
-} else if (currentMinute \> 20 && currentMinute \<= 30) {
-
-minuteIndex = 30;
-
-} else if (currentMinute \> 30 && currentMinute \<= 40) {
-
-minuteIndex = 40;
-
-} else if (currentMinute \> 40 && currentMinute \<= 50) {
-
-minuteIndex = 50;
-
-} else {
-
-minuteIndex = 60;
-
-}
-
-if (minuteIndex == 60) {
-
-// 时
-
-for (var i = currentHours + 1; i \< 24; i++) {
-
-hours.push(i);
-
-}
-
-} else {
-
-// 时
-
-for (var i = currentHours; i \< 24; i++) {
-
-hours.push(i);
-
-}
-
-}
-
-// 分
-
-for (var i = 0; i \< 60; i += 5) {
-
-minute.push(i);
-
-}
-
-},
-
-bindStartMultiPickerChange: function (e) {
-
-var that = this;
-
-var monthDay = that.data.multiArray[0][e.detail.value[0]];
-
-var hours = that.data.multiArray[1][e.detail.value[1]];
-
-var minute = that.data.multiArray[2][e.detail.value[2]];
-
-var month;
-
-var day;
-
-if (monthDay === "今天") {
-
-month = date.getMonth() + 1;
-
-day = date.getDate();
-
-monthDay = month + "月" + day + "日";
-
-} else if (monthDay === "明天") {
-
-var date1 = new Date(date);
-
-date1.setDate(date.getDate() + 1);
-
-month = date1.getMonth() + 1;
-
-day = date1.getDate();
-
-monthDay = (date1.getMonth() + 1) + "月" + date1.getDate() + "日";
-
-} else {
-
-month = monthDay.split("-")[0]; // 返回月
-
-day = monthDay.split("-")[1]; // 返回日
-
-monthDay = month + "月" + day + "日";
-
-}
-
-var startDate = monthDay + " " + hours + ":" + minute;
-
-console.log(startDate, month, day, hours, minute)
-
-var strtime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' +
-minute + ':00:00';
-
-console.log(strtime)
-
-var remind = new Date(strtime);
-
-//传入一个时间格式，如果不传入就是获取现在的时间了，这样做不兼容火狐。
-
-// 可以这样做
-
-//var date = new Date(strtime.replace(/-/g, '/'));
-
-console.log(remind.getTime())
-
-that.setData({
-
-startDate: startDate
-
+  data: {
+    multiArray: [['今天', '明天', '3-2', '3-3', '3-4', '3-5'], [0, 1, 2, 3, 4, 5, 6], [0, 10, 20]],
+    multiIndex: [0, 0, 0],
+  },
+  onLoad: function () {
+    console.log('代码片段是一种迷你、可分享的小程序或小游戏项目，可用于分享小程序和小游戏的开发经验、展示组件和 API 的使用、复现开发问题和 Bug 等。可点击以下链接查看代码片段的详细文档：')
+    console.log('https://mp.weixin.qq.com/debug/wxadoc/dev/devtools/devtools.html')
+  },
+  pickerTap: function () {
+    date = new Date();
+
+    var monthDay = ['今天', '明天'];
+    var hours = [];
+    var minute = [];
+
+    currentHours = date.getHours();
+    currentMinute = date.getMinutes();
+
+    // 月-日
+    for (var i = 2; i <= 28; i++) {
+      var date1 = new Date(date);
+      date1.setDate(date.getDate() + i);
+      var md = (date1.getMonth() + 1) + "-" + date1.getDate();
+      monthDay.push(md);
+    }
+
+    var data = {
+      multiArray: this.data.multiArray,
+      multiIndex: this.data.multiIndex
+    };
+
+    if (data.multiIndex[0] === 0) {
+      if (data.multiIndex[1] === 0) {
+        this.loadData(hours, minute);
+      } else {
+        this.loadMinute(hours, minute);
+      }
+    } else {
+      this.loadHoursMinute(hours, minute);
+    }
+
+    data.multiArray[0] = monthDay;
+    data.multiArray[1] = hours;
+    data.multiArray[2] = minute;
+
+    this.setData(data);
+  },
+
+
+
+  bindMultiPickerColumnChange: function (e) {
+    date = new Date();
+
+    var that = this;
+
+    var monthDay = ['今天', '明天'];
+    var hours = [];
+    var minute = [];
+
+    currentHours = date.getHours();
+    currentMinute = date.getMinutes();
+
+    var data = {
+      multiArray: this.data.multiArray,
+      multiIndex: this.data.multiIndex
+    };
+    // 把选择的对应值赋值给 multiIndex
+    data.multiIndex[e.detail.column] = e.detail.value;
+
+    // 然后再判断当前改变的是哪一列,如果是第1列改变
+    if (e.detail.column === 0) {
+      // 如果第一列滚动到第一行
+      if (e.detail.value === 0) {
+
+        that.loadData(hours, minute);
+
+      } else {
+        that.loadHoursMinute(hours, minute);
+      }
+
+      data.multiIndex[1] = 0;
+      data.multiIndex[2] = 0;
+
+      // 如果是第2列改变
+    } else if (e.detail.column === 1) {
+
+      // 如果第一列为今天
+      if (data.multiIndex[0] === 0) {
+        if (e.detail.value === 0) {
+          that.loadData(hours, minute);
+        } else {
+          that.loadMinute(hours, minute);
+        }
+        // 第一列不为今天
+      } else {
+        that.loadHoursMinute(hours, minute);
+      }
+      data.multiIndex[2] = 0;
+
+      // 如果是第3列改变
+    } else {
+      // 如果第一列为'今天'
+      if (data.multiIndex[0] === 0) {
+
+        // 如果第一列为 '今天'并且第二列为当前时间
+        if (data.multiIndex[1] === 0) {
+          that.loadData(hours, minute);
+        } else {
+          that.loadMinute(hours, minute);
+        }
+      } else {
+        that.loadHoursMinute(hours, minute);
+      }
+    }
+    data.multiArray[1] = hours;
+    data.multiArray[2] = minute;
+    this.setData(data);
+  },
+  loadData: function (hours, minute) {
+
+    var minuteIndex;
+    if (currentMinute > 0 && currentMinute <= 10) {
+      minuteIndex = 10;
+    } else if (currentMinute > 10 && currentMinute <= 20) {
+      minuteIndex = 20;
+    } else if (currentMinute > 20 && currentMinute <= 30) {
+      minuteIndex = 30;
+    } else if (currentMinute > 30 && currentMinute <= 40) {
+      minuteIndex = 40;
+    } else if (currentMinute > 40 && currentMinute <= 50) {
+      minuteIndex = 50;
+    } else {
+      minuteIndex = 60;
+    }
+
+    if (minuteIndex == 60) {
+      // 时
+      for (var i = currentHours + 1; i < 24; i++) {
+        hours.push(i);
+      }
+      // 分
+      for (var i = 0; i < 60; i += 5) {
+        minute.push(i);
+      }
+    } else {
+      // 时
+      for (var i = currentHours; i < 24; i++) {
+        hours.push(i);
+      }
+      // 分
+      for (var i = minuteIndex; i < 60; i += 5) {
+        minute.push(i);
+      }
+    }
+  },
+
+  loadHoursMinute: function (hours, minute) {
+    // 时
+    for (var i = 0; i < 24; i++) {
+      hours.push(i);
+    }
+    // 分
+    for (var i = 0; i < 60; i += 5) {
+      minute.push(i);
+    }
+  },
+
+  loadMinute: function (hours, minute) {
+    var minuteIndex;
+    if (currentMinute > 0 && currentMinute <= 10) {
+      minuteIndex = 10;
+    } else if (currentMinute > 10 && currentMinute <= 20) {
+      minuteIndex = 20;
+    } else if (currentMinute > 20 && currentMinute <= 30) {
+      minuteIndex = 30;
+    } else if (currentMinute > 30 && currentMinute <= 40) {
+      minuteIndex = 40;
+    } else if (currentMinute > 40 && currentMinute <= 50) {
+      minuteIndex = 50;
+    } else {
+      minuteIndex = 60;
+    }
+
+    if (minuteIndex == 60) {
+      // 时
+      for (var i = currentHours + 1; i < 24; i++) {
+        hours.push(i);
+      }
+    } else {
+      // 时
+      for (var i = currentHours; i < 24; i++) {
+        hours.push(i);
+      }
+    }
+    // 分
+    for (var i = 0; i < 60; i += 5) {
+      minute.push(i);
+    }
+  },
+
+  bindStartMultiPickerChange: function (e) {
+    var that = this;
+    var monthDay = that.data.multiArray[0][e.detail.value[0]];
+    var hours = that.data.multiArray[1][e.detail.value[1]];
+    var minute = that.data.multiArray[2][e.detail.value[2]];
+    var month;
+    var day;
+    if (monthDay === "今天") {
+      month = date.getMonth() + 1;
+      day = date.getDate();
+      monthDay = month + "月" + day + "日";
+    } else if (monthDay === "明天") {
+      var date1 = new Date(date);
+      date1.setDate(date.getDate() + 1);
+      month = date1.getMonth() + 1;
+      day = date1.getDate();
+      monthDay = (date1.getMonth() + 1) + "月" + date1.getDate() + "日";
+
+    } else {
+      month = monthDay.split("-")[0]; // 返回月
+      day = monthDay.split("-")[1]; // 返回日
+      monthDay = month + "月" + day + "日";
+    }
+
+    var startDate = monthDay + " " + hours + ":" + minute;
+    console.log(startDate, month, day, hours, minute)
+    var strtime = date.getFullYear() + '-' + month + '-' + day + ' ' + hours + ':' + minute + ':00:00';
+    console.log(strtime)
+    var remind = new Date(strtime);
+    //传入一个时间格式，如果不传入就是获取现在的时间了，这样做不兼容火狐。
+    // 可以这样做
+    //var date = new Date(strtime.replace(/-/g, '/'));
+    console.log(remind.getTime())
+
+    that.setData({
+      startDate: startDate
+    })
+    var userInfo = wx.getStorageSync('userInfo');
+    console.log(userInfo)
+    wx.request({
+      url: 'http://外网IP/insert_remind.php',//将用户任务，时间等等信息上传到后台服务器
+      data:
+      {
+        touser:,
+        template_id:,
+        form_id:,
+        page: "pages/schedule/schedule",
+        remind_time: remind.getTime(),
+        keyword1:,
+        keyword2:,
+        keyword3: ,
+        keyword4:,
+        keyword5:,
+      },
+      method: 'GET',
+      header: {
+        "Accept": "application/json"
+      },
+      success: function (res) {
+
+        console.log("jianjie", res)
+              },
+      fail: function (err) {
+        console.log('request fail ', err);
+            },
+      complete: function (res) {
+        console.log("request completed!");
+      }
+
+    })
+  },
+  testSubmit: function (e) {
+    console.log(e)
+    this.setData({
+      form_id: e.detail.formId
+    })
+  },
 })
-
-var userInfo = wx.getStorageSync('userInfo');
-
-console.log(userInfo)
-
-wx.request({
-
-url:
-'http://外网IP/insert_remind.php',//将用户任务，时间等等信息上传到后台服务器
-
-data:
-
-{
-
-touser:,
-
-template_id:,
-
-form_id:,
-
-page: "pages/schedule/schedule",
-
-remind_time: remind.getTime(),
-
-keyword1:,
-
-keyword2:,
-
-keyword3: ,
-
-keyword4:,
-
-keyword5:,
-
-},
-
-method: 'GET',
-
-header: {
-
-"Accept": "application/json"
-
-},
-
-success: function (res) {
-
-console.log("jianjie", res)
-
-},
-
-fail: function (err) {
-
-console.log('request fail ', err);
-
-},
-
-complete: function (res) {
-
-console.log("request completed!");
-
-}
-
-})
-
-},
-
-testSubmit: function (e) {
-
-console.log(e)
-
-this.setData({
-
-form_id: e.detail.formId
-
-})
-
-},
-
-})
+```
 
 #### Wxml文件：
-
-\<form bind:submit="testSubmit" report-submit="true"\>
-
-\<picker mode="multiSelector" bindchange="bindStartMultiPickerChange"
-bindtap='pickerTap' bindcolumnchange="bindMultiPickerColumnChange"
-value="{{multiIndex}}" range="{{multiArray}}"\> \<button class='button1'
-formType="submit" \>添加提醒\</button\>\</picker\>
-
-\</form\>
+```html
+<form bind:submit="testSubmit" report-submit="true">
+<picker mode="multiSelector" bindchange="bindStartMultiPickerChange" bindtap='pickerTap' bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}"> <button class='button1' formType="submit"  >添加提醒</button></picker>
+ 
+  </form>
+```
 
 ![](media/2ba8814c822d6f59f63fe4b15fd81d5a.png)
 

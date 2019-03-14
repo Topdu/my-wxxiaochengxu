@@ -6,7 +6,7 @@ Page({
    */
 
   data: {
-    checkboxItems: [
+    setcheckboxItems: [
       { name: '1', value: '班会' },
       { name: '2', value: '例会' },
       { name: '3', value: '会议' },
@@ -15,14 +15,11 @@ Page({
       { name: '6', value: '出游' },
       { name: '7', value: '形教课' },
       { name: '8', value: '学习' },
-      { name: '9', value: '班会1' },
-      { name: '10', value: '例会1' },
-      { name: '11', value: '会议1' },
-      { name: '12', value: '团日1' },
-      { name: '13', value: '聚会1' },
-      { name: '14', value: '出游1' },
-      { name: '15', value: '形教课1' },
-      { name: '16', value: '学习1' },
+      { name: '9', value: '约会' },
+      { name: '10', value: '团建' },
+      { name: '11', value: '运动' },
+      { name: '12', value: '工作' },
+  
 
     ],
     taskes1: [],
@@ -35,64 +32,76 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    var selected = wx.getStorageSync('items_num');
+    var setselected = wx.getStorageSync('items_num');
     
-    for (var i = 0; i < selected.length; i++) {
-      that.data.checkboxItems[selected[i] - 1].checked = true;
+    for (var i = 0; i < setselected.length; i++) {
+      that.data.setcheckboxItems[setselected[i] - 1].checked
+ = true;
     }
-    console.log(that.data.checkboxItems)
+    console.log(that.data.setcheckboxItems)
     that.setData({
-      checkboxItems1: that.data.checkboxItems
+      setcheckboxItems1: that.data.setcheckboxItems
 
     })
 
   },
-  checkboxChange: function (e) {
-    var checked = e.detail.value;
-    console.log(checked);
+  setcheckboxChange: function (e) {
+    var setchecked = e.detail.value;
+    console.log(setchecked);
+    if(setchecked.length>8)
+    {
+      wx.showModal({
+        title: '提示',
+        content: '标签至多设置8个，您可以添加自定义设置！',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+         
+             return 0;
+            
+          } else if (res.cancel) {
+            return 0;
+
+          }
+        }
+      })
+    }
+    else
+    {
+
+    
     wx.setStorage({
       key: 'items_num',
-      data: checked,
+      data: setchecked,
     });
-    var changed = {};
+    var setchanges = {};
     var j = 0;
-    // if(checked.length<=8)
+    // if(setchecked.length<=8)
     {
-      for (var i = 0; i < this.data.checkboxItems1.length; i++) {
-        if (checked.indexOf(this.data.checkboxItems[i].name) !== -1) {
-          changed['checkboxItems1[' + i + '].checked'] = true;
-          console.log('this.data.checkboxItems1[i].value' + this.data.checkboxItems1[i].value);
-          this.data.taskes1[j] = this.data.checkboxItems1[i].value;
+      for (var i = 0; i < this.data.setcheckboxItems1.length; i++) {
+        if (setchecked
+  .indexOf(this.data.setcheckboxItems[i].name) !== -1) {
+          setchanges['setcheckboxItems1[' + i + '].checked'] = true;
+          console.log('this.data.setcheckboxItems1[i].value' + this.data.setcheckboxItems1[i].value);
+          this.data.taskes1[j] = this.data.setcheckboxItems1[i].value;
           j++;
 
           console.log(this.data.taskes1)
           // this.setData({
-          //   taskes: this.data.taskes + ' ' + this.data.checkboxItems[i].value
+          //   taskes: this.data.taskes + ' ' + this.data.setcheckboxItems[i].value
           // });
         } else {
-          changed['checkboxItems1[' + i + '].checked'] = false;
+          setchanges['setcheckboxItems1[' + i + '].checked'] = false;
 
         }
-        console.log('checkboxItems1=' + i + '=' + this.data.checkboxItems1[i].checked);
+        console.log('setcheckboxItems1=' + i + '=' + this.data.setcheckboxItems1[i].checked
+  );
       }
-      // console.log('this.data.taskes' + this.data.taskes);
+     
     }
-    // // else
-    // // {
-    //   wx.showModal({
-    //     title: '提示',
-    //     content: '最多选择8个标签！',
-    //     success: function (res) {
-    //       if (res.confirm) {
-    //         console.log('用户点击确定')
-    //       } else if (res.cancel) {
-    //         console.log('用户点击取消')
-    //       }
-    //     }
-    //   })
-    // // }
 
-    this.setData(changed)
+    this.setData(setchanges)
+    }
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

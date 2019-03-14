@@ -1,3 +1,4 @@
+/* client/pages/remind/remind.wxss */
 /* pages/schedule/schedule.wxss */
 page
 {
@@ -111,7 +112,7 @@ page
   font-weight: 550;
   float: left;
 
-  width:500rpx
+  width: 500rpx
  
 }
 .iconPre {
@@ -127,7 +128,7 @@ page
   margin-left: 1%;
   float:  right;
  color:  #9d9d9d;
- margin-bottom: 25rpx;
+ margin-bottom: 30rpx;
   width: 90%
   
 
@@ -146,88 +147,26 @@ page
   font-size:  17px;
   font-family: Microsoft YaHei;
 }
-.see
+.remind_time
 {
-
-  width: 30%;
-  float: left;
+font-size: 25rpx;
+margin-left:50rpx;
+float:  left;
+margin-bottom: 5rpx;
+text-align:right;
+width: 300rpx;
+margin-right: 10rpx;
   
-  font-size: 30rpx;
-  color:  #CCCCCC
-
 }
+
+
+
 .alert
 {
 
-  width: 30%;
+ 
   float: left;
  
    font-size: 30rpx;
    color:  #CCCCCC; 
-}
-.weui-navbar {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  position: fixed;
-  z-index: 500;
-  top: 0;
-  width: 100%;
-  border-bottom: 1rpx solid #CCCCCC;
-  background-color: #A8E0FF;
-  box-shadow: 0px 0px 30px 2px #CCCCCC;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-.weui-navbar__item {
-  position: relative;
-  display: block;
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-          flex: 1;
-  padding: 13px 0;
-  text-align: center;
-  font-size: 0;
-  color: aliceblue
-}
-.weui-navbar__item.weui-bar__item_on {
-  color: white;
-}
-.weui-navbar__slider {
-  position: absolute;
-  content: " ";
-  left: 0;
-  bottom: 0;
-  width: 30%;
-  height: 3px;
-  margin-left: 10%;
-  background-color:  white;
-  -webkit-transition: -webkit-transform .3s;
-  transition: -webkit-transform .3s;
-  transition: transform .3s;
-  
-}
-.weui-navbar__title {
-  display: inline-block;
-  font-size: 15px;
-  max-width: 8em;
-  width: auto;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  word-wrap: normal;
-}
-.userinfo-avatar {
-    position: fixed;
-    width: 100rpx;
-    height: 100rpx;
-    margin: 20rpx;
-    border-radius: 50%;
-    bottom: 45px;
-    right: 0px;
-    box-shadow: 0px 0px 30px 2px #CCCCCC; 
-}
-.userinfo-avatar:active
-{
-  box-shadow: 0px 0px 30px 15px #CCCCCC; 
 }

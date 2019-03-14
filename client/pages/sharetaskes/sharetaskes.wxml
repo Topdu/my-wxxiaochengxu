@@ -1,35 +1,10 @@
 <!--pages/sharetaskes/sharetaskes.wxml-->
-<!-- <view class='notice'>
-<view>
-<view class='notice0'>群公告</view>
-<view style="height: 2px;width:90%;background-color:red;border-radius: 5px;  margin-left: 5%;margin-top: 5%;float:left;"></view>
-<view class='notice1'>主题：</view><view class='notice2'>{{textarea1}}</view>
-<view class='notice1'>活动时间：</view><view class='notice2'>{{times}} </view>
-<view class='notice1'>地点：</view><view class='notice2'>{{textarea}} </view>
-<view class='notice1'>类型：</view><view class='notice2'>{{taskes}} </view>
-<view class='notice1'>内容：</view><view class='notice2'>{{textarea2}} </view>
-<view style="height: 2px;width:90%;background-color:red;border-radius: 5px;  margin-left: 5%;margin-top: 5%;float:left;"></view>
-</view>
-<view style="font: 0px/0px sans-serif;clear: both;display: block"> </view>  
-</view>
-
-<button class='button1'   bindtap='addSchedule'>添加日程</button> 
-<button class='button1'   open-type="share">+发布</button>  -->
 <!--pages/sharetaskes/sharetaskes.wxml-->
 <view class='notice'>
-	<view>
-		<view class='notice0'>群公告</view>
-		<view style="height: 2px;width:90%;background-color:red;border-radius: 5px;  margin-left: 5%;margin-bottom: 5%;"></view>
-		<view class='notice1'>创建者：</view>
-
-		<view class="userinfo1">
-			<view class="userinfo-nickname">{{name}}</view>
-
-			<image class="userinfo-avatar" src="{{avatarUrl}}" background-size="cover"></image>
-		</view>
-		<view class='notice1'>主题：</view>
-		<view class='notice2'>{{textarea1}}</view>
-		<view class='notice1'>活动时间：</view>
+		<view style="height: 260rpx;width:90%;margin-bottom:2%;"></view>
+     <view style='height:400rpx;overflow-y:auto;'>
+		<view class='title'>{{textarea1}}通知</view>
+  	<view class='notice1'>时间：</view>
 		<view class='notice2'>{{times}} </view>
 		<view class='notice1'>地点：</view>
 		<view class='notice2'>{{textarea}} </view>
@@ -37,24 +12,48 @@
 		<view class='notice2'>{{taskes}} </view>
 		<view class='notice1'>内容：</view>
 		<view class='notice2'>{{textarea2}} </view>
-		<view class='notice1'>创建时间：</view>
-		<view class='notice2'>{{create_time}} </view>
+    </view>
+	  <view class='name'>{{nickName}} </view>
+    	<view class="userinfo1">
+			<view class="userinfo-nickname">{{name}}</view>
 
-		<view style='float:left;width:100%;margin-bottom:5%'>
-			<view style="height: 2px;width:90%;background-color:red;border-radius: 5px;  margin-left: 5%;margin-top: 5%;"></view>
-			<view class='lemessage' style='float:left;'bindtap='writemessage'>写留言 </view>
-			<view wx:for="{{messag}}">
+			<image class="userinfo-avatar" src="{{avatarUrl}}" background-size="cover"></image>
+		</view>
+		<view class='createtime'>{{create_time}} </view>
+
+    <button class='button1' bindtap='addSchedule'>确认收到</button> 
+<form bind:submit="testSubmit" report-submit="true">
+<picker mode="multiSelector" bindchange="bindStartMultiPickerChange" bindtap='pickerTap' bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}"> <button class='button1' formType="submit"  >添加提醒</button></picker>
+ 
+  </form>
+</view>  
+<view class='bottom' >
+    		
+		
+		<view style='float:left;margin-bottom:5%;width:100%;overflow-y:auto;height:auto'>
+			<view class='lemessage' bindtap='writemessage'>写留言</view>
+			<view wx:for="{{messag}}" style='width:100%;float:left;height:auto'  >
 				<view class="userinfo2">
-					<image class="userinfo-avatar1" src="{{item['avatarUrl']}}" background-size="cover"></image>
-        	<view class="userinfo-nickname1">{{item['nickName']}}</view>
-          <view class="userinfo-message">{{item['message']}}</view>
+          <view bindtap='replymessage' id='{{index}}'>
+            <image class="userinfo-avatar1" src="{{item['avatarUrl']}}" background-size="cover"></image>
+            <view class="userinfo-nickname1">{{item['nickName']}}</view>
+            <view class="userinfo-message">{{item['message']}}</view>
+          </view>
+          <view style="display:{{item['showdelete']}};" class='btn_delete' bindtap='deletemessage'>删除</view>
+          <view  class='replymessage'style="display:{{item['showreply']}};"  >
+              <view class='icong'></view>
+             <view class='font'>创建者：    </view> 
+                <view style='color: black;margin-left: 80rpx; font-size: 13px;margin-bottom: 4rpx; float: left;margin-right: 20rpx;'>{{item['replymessage']}}
+                </view>
+          
+             
+          
+             
+          </view>
         </view>
-				
       </view>
 		</view>
-	</view>
-	<view style="font: 0px/0px sans-serif;clear: both;display: block"> </view>
 </view>
-<button class='button1'   bindtap='addSchedule'>添加日程</button> 
 
-<button class='button1' open-type="share">+发布</button>
+
+ 

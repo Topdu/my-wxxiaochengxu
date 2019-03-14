@@ -1,0 +1,26 @@
+<!--client/pages/trash/trash.wxml-->
+<!--pages/schedule/schedule.wxml-->
+
+
+<view wx:for="{{getdata2}}" bindtap='deletedata' id="{{index}}">
+  <view class='notice' bindlongpress='delect' id="{{index}}" >
+  <view class='notice0' >[通知]</view>
+  <view class='notice2'>{{item['topic']}}
+    <image style='height:30rpx;width:30rpx;float:right' src="{{item['url']}}"></image>
+  </view>
+  <view class='notice3'>{{item['task_place']}}-{{item['task_date']}}</view>
+    <view class='see' hidden="{{!item['show']}}"> 
+      <image  src="../../image/user-unlogin.png" style='height:40rpx;width:40rpx;float:left' 
+              background-size="cover"></image>  
+            <view style='height:40rpx;padding-top:4rpx'>{{item['view_num']}}</view></view> 
+    <view class='alert' hidden="{{!item['show']}}">
+    <image  src="../../image/time.png" style='height:40rpx;width:40rpx;float:left'
+              background-size="cover"></image> 
+             <view style='height:40rpx;padding-top:4rpx'>  {{item['alert_num']}}</view></view>
+  
+
+  </view>
+</view>
+
+
+
