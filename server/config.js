@@ -3,16 +3,16 @@ const CONF = {
     rootPathname: '',
 
     // 微信小程序 App ID
-    appId: 'wxb648d10457bb1a9f',
+    appId: '',
 
     // 微信小程序 App Secret
-    appSecret: 'cd73a8a55866339f7047e578b4d2f7c5',
+    appSecret: '',
 
     // 是否使用腾讯云代理登录小程序
     useQcloudLogin: false,
-    qcloudAppId: '1255531531',
-    qcloudSecretId: 'AKIDEFeojSaAAvQmtkqnyve7RXN0NVN0xefQ',
-    qcloudSecretKey: 'h8ML5ZtymNinHVUJvHQN5ZpsnTu51i9K',
+    qcloudAppId: '',
+    qcloudSecretId: '',
+    qcloudSecretKey: '',
     /**
      * MySQL 配置，用来存储 session 和用户信息
      * 若使用了腾讯云微信小程序解决方案
@@ -23,7 +23,7 @@ const CONF = {
         port: 3306,
         user: 'root',
         db: 'cAuth',
-        pass: 'wxb648d10457bb1a9f',
+        pass: '',
         char: 'utf8mb4'
     },
 
