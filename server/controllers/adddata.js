@@ -17,8 +17,8 @@ module.exports = async ctx => {
         view_num: '0',
         alert_num: '0',
         create_time: ctx.request.body.create_time,
-        share_open_id: ' ',
-        share_create_time: ' ',
+        share_open_id: '',
+        share_create_time: '',
         orcreate: ctx.request.body.orcreate
       }
       await mysql('testmodel_task').insert(newTask);
@@ -27,41 +27,50 @@ module.exports = async ctx => {
       }
     }
     else {
-      var id = await mysql('testmodel_task').where({ open_id: ctx.request.body.open_id, share_create_time: ctx.request.body.share_create_time, share_open_id: ctx.request.body.share_open_id }).select('id')
-      if (id.length == 0) {
-        newTask = {
-          open_id: ctx.request.body.open_id,
-          topic: ctx.request.body.topic,
-          task_date: ctx.request.body.task_date,
-          task_item: ctx.request.body.task_item,
-          task_place: ctx.request.body.task_place,
-          task_content: ctx.request.body.task_content,
-          view_num: '0',
-          alert_num: '0',
-          create_time: ctx.request.body.create_time,
-          share_open_id: ctx.request.body.share_open_id,
-          share_create_time: ctx.request.body.share_create_time,
-          orcreate: ctx.request.body.orcreate
-        }
-        await mysql('testmodel_task').insert(newTask);
+      if (ctx.request.body.open_id == ctx.request.body.share_open_id)
+      {
         ctx.body = {
           success: true,
         }
       }
-      else {
-        var ordelete = await mysql('testmodel_task').where({ open_id: ctx.request.body.open_id, share_create_time: ctx.request.body.share_create_time, share_open_id: ctx.request.body.share_open_id }).select('ordelete')
-        var ordelete1 = parseInt(ordelete[0].ordelete)
-        if (ordelete1==1)
-        {
-          await mysql('testmodel_task').update({ ordelete: 0 }).where({ open_id: ctx.request.body.open_id, share_create_time: ctx.request.body.share_create_time, share_open_id: ctx.request.body.share_open_id })
+      else
+      {
+        var id = await mysql('testmodel_task').where({ open_id: ctx.request.body.open_id, share_create_time: ctx.request.body.share_create_time, share_open_id: ctx.request.body.share_open_id }).select('id')
+        if (id.length == 0) {
+          newTask = {
+            open_id: ctx.request.body.open_id,
+            topic: ctx.request.body.topic,
+            task_date: ctx.request.body.task_date,
+            task_item: ctx.request.body.task_item,
+            task_place: ctx.request.body.task_place,
+            task_content: ctx.request.body.task_content,
+            view_num: '0',
+            alert_num: '0',
+            create_time: ctx.request.body.create_time,
+            share_open_id: ctx.request.body.share_open_id,
+            share_create_time: ctx.request.body.share_create_time,
+            orcreate: ctx.request.body.orcreate
+          }
+          await mysql('testmodel_task').insert(newTask);
+          ctx.body = {
+            success: true,
+          }
         }
+        else {
+          var ordelete = await mysql('testmodel_task').where({ open_id: ctx.request.body.open_id, share_create_time: ctx.request.body.share_create_time, share_open_id: ctx.request.body.share_open_id }).select('ordelete')
+          var ordelete1 = parseInt(ordelete[0].ordelete)
+          if (ordelete1 == 1) {
+            await mysql('testmodel_task').update({ ordelete: 0 }).where({ open_id: ctx.request.body.open_id, share_create_time: ctx.request.body.share_create_time, share_open_id: ctx.request.body.share_open_id })
+          }
 
 
-        ctx.body = {
-          success: true,
-          // data: await mysql('testmodel_task').where({ open_id: ctx.request.body.open_id }).select('*').orderBy('create_time', 'asc')
+          ctx.body = {
+            success: true,
+          
+          }
         }
       }
+     
 
     }
 

@@ -28,6 +28,7 @@ page
   font-size:  17px;
   font-family:  黑体;
 }
+
 .button1
 {
   position: fixed;
@@ -123,12 +124,16 @@ page
 }
 .notice3
 {
-  font-size: 15px;
-  margin-left: 1%;
-  float:  right;
- color:  #9d9d9d;
- margin-bottom: 25rpx;
-  width: 90%
+font-size:15px;
+margin-left:5%;
+float:right;
+color:#9d9d9d;
+margin-bottom:25rpx;
+width:90%;
+margin-right:5%;
+height:40rpx;
+overflow:hidden;
+
   
 
 }
@@ -149,7 +154,7 @@ page
 .see
 {
 
-  width: 30%;
+  width: 25%;
   float: left;
   
   font-size: 30rpx;
@@ -230,4 +235,13 @@ page
 .userinfo-avatar:active
 {
   box-shadow: 0px 0px 30px 15px #CCCCCC; 
+}
+.alert1
+{
+
+ 
+  float: right;
+ 
+   font-size: 30rpx;
+   color:  #CCCCCC; 
 }

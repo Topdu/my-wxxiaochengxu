@@ -12,7 +12,9 @@
     "pages/write/write",
     "pages/sharedetail/sharedetail",
     "pages/remind/remind",
-    "pages/trash/trash"
+    "pages/trash/trash",
+    "pages/tuxiang/tuxiang",
+    "pages/yuyin/yuyin"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

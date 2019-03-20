@@ -4,11 +4,12 @@
 
 <view wx:for="{{getdata2}}" bindtap='deletedata' id="{{index}}">
   <view class='notice' bindlongpress='delect' id="{{index}}" >
-  <view class='notice0' >[通知]</view>
-  <view class='notice2'>{{item['topic']}}
+
+   <view class='notice0' >[通知]</view>
+  <view class='notice2'>{{item['topic']?item['topic']:'通知'}}
     <image style='height:30rpx;width:30rpx;float:right' src="{{item['url']}}"></image>
   </view>
-  <view class='notice3'>{{item['task_place']}}-{{item['task_date']}}</view>
+  <view class='notice3'>{{(item['task_place']&&item['task_place']!='null'&&item['task_place']!='undefined')?item['task_place']:item['task_content']}}-{{item['task_date']?item['task_date']:''}}</view>
     <view class='see' hidden="{{!item['show']}}"> 
       <image  src="../../image/user-unlogin.png" style='height:40rpx;width:40rpx;float:left' 
               background-size="cover"></image>  
@@ -17,10 +18,15 @@
     <image  src="../../image/time.png" style='height:40rpx;width:40rpx;float:left'
               background-size="cover"></image> 
              <view style='height:40rpx;padding-top:4rpx'>  {{item['alert_num']}}</view></view>
-  
+    <view class='alert1' >
+    
+             <view style='height:40rpx;padding-top:4rpx;width:300rpx;'> {{item['create_time']}}</view></view>
+
 
   </view>
 </view>
 
-
+    <view class="footer">
+            <view class="footer__text">Copyright © 2018-2019 日常助手</view>
+        </view>
 

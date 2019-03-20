@@ -23,6 +23,7 @@ page {
     background-size:100% ;
 
 }
+
 .bottom
 {
    margin-top:0%;
@@ -35,6 +36,14 @@ page {
   overflow-x:hidden;
     box-shadow: 0px 0px 10px 1px #F2F2F2;
    
+}
+.textarea
+{
+  width: 500rpx;
+  text-indent:2em;
+  margin-left: auto;
+  margin-right: auto;
+   font-size: 16px;
 }
 .noticecon
 {
@@ -107,20 +116,20 @@ margin-bottom: 50rpx;
 }
 .button1
 {
-
-
 border:1px solid #90CFF0;
-border-radius:5px;
+border-radius:0px;
 color:#90CFF0;
-margin-left:80px;
-margin-right:80rpx;
+margin-left:15%;
+margin-right:14%;
 margin-bottom:26rpx;
-float:left;
-font-size:10px;
+float:right;
+font-size:13px;
 line-height:1.5;
-width:40px;
+width:20%;
 padding:0px;
-box-sizing: unset;
+box-sizing:unset;
+height:20px;
+
 
 
   
@@ -149,11 +158,12 @@ margin-right:30rpx;
    background-color: #F5F5F5;
   box-shadow: 0px 0px 30px 2px #F5F5F5;
  
+min-height:130rpx;
 
 }
 .userinfo-avatar {
-  width: 50rpx;
-  height: 53rpx;
+  width: 40rpx;
+  height: 40rpx;
   margin: 0rpx;
   border-radius: 50%;
   float: right
@@ -168,8 +178,9 @@ margin-right:30rpx;
   float: left
 }
 .userinfo-nickname {
-margin-right: 10rpx;
-  float: right
+margin-right: 30rpx;
+  float: right;
+  font-size: 15px;
 }
 .userinfo-nickname1 {
    margin-top: 15rpx;

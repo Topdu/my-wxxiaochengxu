@@ -41,16 +41,30 @@ Page({
         isdelete: 'none'
       })
     }
-    that.setData({
-      textarea1: options.textarea1,
-      times: options.times,
-      textarea: options.place,
-      textarea2: options.content,
-      taskes: options.taskes1,
-      open_id: options.open_id,
-      create_time: options.create_time,
-     
-    })
+    if(options.tuxiang)
+    {
+      that.setData({
+        textarea2: options.content,
+        open_id: options.open_id,
+        create_time: options.create_time,
+        textshow: false,
+        textarea1: options.textarea1,
+      })
+    }
+    else
+    {
+      that.setData({
+        textarea1: options.textarea1,
+        times: options.times,
+        textarea: options.place,
+        textarea2: options.content,
+        taskes: options.taskes1,
+        open_id: options.open_id,
+        create_time: options.create_time,
+        textshow:true
+      })
+    }
+  
     
     console.log('that=' + that.data.textarea1)
     console.log(that.data.open_id)
@@ -375,7 +389,7 @@ deletemessage:function(){
     var taskes = this.data.taskes;
     var textarea = this.data.textarea;
     var textarea2 = this.data.textarea2;
-    
+    var textshow=this.data.textshow;
     var openId = this.data.open_id;
     
     var create_time = this.data.create_time;
@@ -389,9 +403,19 @@ deletemessage:function(){
           })
         }
         else if (res.tapIndex == 1) {
-          wx.navigateTo({
-            url: '../taskes/taskes?textarea1=' + textarea1 + '&times=' + times + '&taskes1=' + taskes + '&place=' + textarea + '&content=' + textarea2 + '&open_id=' + openId + '&create_time=' + create_time,
-          })
+          if(textshow)
+          {
+            wx.navigateTo({
+              url: '../taskes/taskes?textarea1=' + textarea1 + '&times=' + times + '&taskes1=' + taskes + '&place=' + textarea + '&content=' + textarea2 + '&open_id=' + openId + '&create_time=' + create_time,
+            })
+          }
+          else
+          {
+            wx.navigateTo({
+              url: '../taskes/taskes?textarea1=' + textarea1+'&content=' + textarea2 + '&open_id=' + openId + '&create_time=' + create_time+'&tuxiang='+1,
+            })
+          }
+      
         }
       }
     })

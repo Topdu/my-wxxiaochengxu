@@ -8,21 +8,44 @@ module.exports = async ctx => {
   try {
     var message=[];
     var mes = await mysql('task_message').where({ open_id: ctx.query.open_id, create_time: ctx.query.create_time}).select('message_info')
-    mes = JSON.parse(mes[0].message_info)
-    for(var i=0;i<mes.length;i++)
+    if (mes[0])
     {
-      var mess = await mysql('cSessionInfo').where({ open_id:mes[i].open_id }).select('user_info')
-      var res = JSON.parse(mess[0]['user_info'])
-      message.push(res)
+      mes = JSON.parse(mes[0].message_info)
 
+      for (var i = 0; i < mes.length; i++) {
+        if (mes[i].open_id != 'undefined') {
+          var mess = await mysql('cSessionInfo').where({ open_id: mes[i].open_id }).select('user_info');
 
+          var res = JSON.parse(mess[0]['user_info'])
+          message.push(res)
+
+        }
+
+      }
     }
+   
+   
+    var seemessage=[];
+    var open_ids = await mysql('testmodel_task').where({ share_open_id: ctx.query.open_id, share_create_time: ctx.query.create_time }).select('open_id');
+    if (open_ids[0])
+    {
+      for (var i = 0; i < open_ids.length; i++) {
+        if (open_ids[i].open_id != 'undefined') {
+          var mess = await mysql('cSessionInfo').where({ open_id: open_ids[i].open_id }).select('user_info');
+
+          var res = JSON.parse(mess[0]['user_info'])
+          seemessage.push(res)
+        }
+      }
+    }
+  
     var res = await mysql('cSessionInfo').where({ open_id: ctx.query.open_id }).select('user_info')
     ctx.body = {
       success: true,
       data: message,
       data1:mes,
-      userdata:res
+      userdata:res,
+      seemessage: seemessage,
     }
   } catch (error) {
     ctx.body = {

@@ -10,3 +10,6 @@
         </view>
   <button class='button1'  bindtap='OK'>完成</button> 
 </view>
+    <view class="footer">
+            <view class="footer__text">Copyright © 2018-2019 日常助手</view>
+        </view>

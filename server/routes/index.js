@@ -45,4 +45,7 @@ router.get('/insert_remind', controllers.insert_remind)
 router.get('/deletereplymessage', controllers.deletereplymessage)
 router.get('/checklogin', controllers.checklogin)
 router.get('/getremind', controllers.getremind)
+router.get('/checkdata', controllers.checkdata)
+router.post('/recognize', controllers.recognize)
+router.post('/ci', controllers.ci)
 module.exports = router

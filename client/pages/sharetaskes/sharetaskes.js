@@ -12,11 +12,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    textarea1: ' ',
-    times: '',
-    textarea: '',
-    textarea2: '',
-    taskes: '',
+   
     startDate: "请选择日期",
 
     multiArray: [['今天', '明天', '3-2', '3-3', '3-4', '3-5'], [0, 1, 2, 3, 4, 5, 6], [0, 10, 20]],
@@ -29,68 +25,113 @@ Page({
   onLoad: function (options) {
   
     var that = this;
-    that.setData({
-      textarea1: options.textarea1,
-      times: options.times,
-      textarea: options.place,
-      textarea2: options.content,
-      taskes: options.taskes1,
-      open_id: options.open_id,
-      create_time: options.create_time
-    })
+    var open_iduser = options.open_id;
+    var create_timeuser = options.create_time;
+  
+    if(options.tuxiang)
+    {
+      that.setData({
+        textarea1: options.textarea1,
+        textarea2: options.content,
+        open_id: options.open_id,
+        create_time: options.create_time,
+        textshow:false
+      })
+    }
+    else
+    {
+      that.setData({
+        textarea1: options.textarea1,
+        times: options.times,
+        textarea: options.place,
+        textarea2: options.content,
+        taskes: options.taskes1,
+        open_id: options.open_id,
+        create_time: options.create_time,
+        textshow:true
+      })
+    }
+   
     console.log('that=' + that.data.textarea1)
     console.log(that.data.open_id)
     console.log(that.data.create_time) 
    
     var userInfo = wx.getStorageSync('userInfo');
     console.log(userInfo.openId)
-    if (!userInfo.openId) {
-      wx.showModal({
-        title: '登录',
-        content: '您还未登录，请前往登录',
-        success: function (res) {
-          if (res.confirm) {
-            console.log('用户点击确定')
-            wx.switchTab({
-              url: '../setting/setting',
-            })
-          } else if (res.cancel) {
-            console.log('用户点击取消')
+    var create_time = util.formatTime(new Date());
+    var mesdata={
+      open_id: userInfo.openId,
+        topic: that.data.textarea1,
+          task_date: that.data.times,
+            task_place: that.data.textarea,
+              task_item: that.data.taskes,
+                task_content: that.data.textarea2,
+                  create_time: create_time,
+                    share_open_id: that.data.open_id,
+                      share_create_time: that.data.create_time,
+                        orcreate: 0
+    };
+    wx.request({
+      url: config.service.checkdataUrl,
+      data:
+      {
+        open_id: that.data.open_id,
+        create_time: that.data.create_time,
+      },
+      method: 'GET',
+      header: {
+        "Accept": "application/json"
+      },
+      success: function (res) {
 
-          }
+        console.log("check", res)
+        if (res.data.success) {
+          wx.showModal({
+            title: '提示',
+            content: '该通知已被创建者删除！',
+            success: function (res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+                wx.switchTab({
+                  url: '../schedule/schedule',
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+                wx.switchTab({
+                  url: '../schedule/schedule',
+                })
+              }
+            }
+          }) 
         }
-      }) 
-    }
-    
-   
-    if (userInfo.openId)
-    {
-      wx.request({
-        url: config.service.checkloginUrl,
-        data: {
-          open_id: userInfo.openId,
-          
-        },
-        method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-        // header: {}, // 设置请求的 header
-        header: {
-          "Accept": "application/json"
-          // 'content-type': 'application/x-www-form-urlencoded'
-        },
+        else
+        {
+          if (!userInfo.openId) {
+            wx.showModal({
+              title: '登录',
+              content: '您还未登录，请前往登录',
+              success: function (res) {
+                if (res.confirm) {
+                  console.log('用户点击确定')
+                  wx.switchTab({
+                    url: '../setting/setting',
+                  })
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
 
-        success: function (res) {
-          //  that.setData({ textdata: res.data });
-          console.log(res.data);
-          if(res.data.success)
-          {
+                }
+              }
+            })
+          }
+
+
+          if (userInfo.openId) {
 
             wx.request({
-              url: config.service.updatedataUrl,
+              url: config.service.checkloginUrl,
               data: {
-                open_id: that.data.open_id,
-                create_time: that.data.create_time,
-                openidview: userInfo.openId,
-                message: ''
+                open_id: userInfo.openId,
+
               },
               method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
               // header: {}, // 设置请求的 header
@@ -102,7 +143,138 @@ Page({
               success: function (res) {
                 //  that.setData({ textdata: res.data });
                 console.log(res.data);
+                if (res.data.success) {
 
+                  wx.showToast({
+                    title: '加载中',
+                    icon: 'loading',
+                    duration: 500
+                  })
+
+                  var userInfo1 = wx.getStorageSync('userInfo');
+            
+                  if (userInfo1.openId)
+                    wx.request({
+                      url: config.service.adddataUrl,
+                      data: mesdata,
+                      method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+                      // header: {}, // 设置请求的 header
+                      header: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                        // "Accept": "application/json"
+                      },
+
+
+                      success: function (res) {
+                        //  that.setData({ textdata: res.data });
+                        console.log(res.data);
+
+                      },
+                      fail: function () {
+                        // fail
+                        console.log("fail")
+                      },
+                      complete: function () {
+                        // complete
+                      }
+                    });
+                  console.log(open_iduser, create_timeuser);
+                  wx.request({
+                    url: config.service.getuserdataUrl,
+                    data: {
+                      open_id: open_iduser,
+                      create_time: create_timeuser
+                    },
+                    method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+                    // header: {}, // 设置请求的 header
+                    header: {
+                      "Accept": "application/json"
+                      // 'content-type': 'application/x-www-form-urlencoded'
+                    },
+                    success: function (res) {
+                      //  that.setData({ textdata: res.data });
+                      //  console.log(res.data.data[0]['message_info'].split(','));
+                      //   res = JSON.parse(res.data.data[0]['user_info'])
+                      console.log(res);
+                      var userInfo = JSON.parse(res.data.userdata[0].user_info)
+                      var userInfonow = wx.getStorageSync('userInfo');
+                      that.setData({
+                        avatarUrl: userInfo.avatarUrl,
+                        name: userInfo.nickName,
+                      })
+                      if (res.data.success) {
+                        var utl = res.data.data
+
+                        var mes = res.data.data1
+                        console.log(mes)
+                        var mess = []
+                        if (mes)
+                          for (var i = 0; i < mes.length; i++) {
+                            if (mes[i].message) {
+                              var messa = {
+                                nickName: '', avatarUrl: '', message: '', showdelete: 'none', openId: '', showreply: 'none', replymessage: ''
+                              }
+
+                              messa.nickName = utl[i].nickName
+                              messa.avatarUrl = utl[i].avatarUrl
+
+                              messa.message = mes[i].message
+                              messa.openId = utl[i].openId
+                              if (mes[i].replymessage) {
+                                messa.showreply = '';
+                                messa.replymessage = mes[i].replymessage;
+                              }
+                              if (utl[i].openId == userInfonow.openId) {
+                                messa.showdelete = '';
+
+                              }
+
+                              mess.push(messa)
+                            }
+
+                          }
+                        that.setData({
+                          avatarUrls: utl,
+                          num: utl.length,
+                          messag: mess
+                        })
+
+                      }
+
+                    },
+                    fail: function () {
+                      // fail
+                      console.log("fail")
+                    },
+                    complete: function () {
+                      // complete
+                    }
+                  })
+                }
+                else {
+                  try {
+                    wx.removeStorageSync('userInfo')
+                    wx.showModal({
+                      title: '登录',
+                      content: '您还未登录，请前往登录',
+                      success: function (res) {
+                        if (res.confirm) {
+                          console.log('用户点击确定')
+                          wx.switchTab({
+                            url: '../setting/setting',
+                          })
+                        } else if (res.cancel) {
+                          console.log('用户点击取消')
+
+                        }
+                      }
+                    })
+                  } catch (e) {
+                    // Do something when catch error
+                    util.showBusy('等待');
+                  }
+
+                }
 
               },
               fail: function () {
@@ -113,44 +285,21 @@ Page({
                 // complete
               }
             })
-          }
-          else
-          {
-            try {
-              wx.removeStorageSync('userInfo')
-              wx.showModal({
-                title: '登录',
-                content: '您还未登录，请前往登录',
-                success: function (res) {
-                  if (res.confirm) {
-                    console.log('用户点击确定')
-                    wx.switchTab({
-                      url: '../setting/setting',
-                    })
-                  } else if (res.cancel) {
-                    console.log('用户点击取消')
 
-                  }
-                }
-              })
-            } catch (e) {
-              // Do something when catch error
-              util.showBusy('等待');
-            }
-    
           }
-
-        },
-        fail: function () {
-          // fail
-          console.log("fail")
-        },
-        complete: function () {
-          // complete
         }
-      })
+      },
+      fail: function (err) {
+        console.log('request fail ', err);
+        util.showModel('添加失败', err.message)
+      },
+      complete: function (res) {
+        console.log("request completed!");
+      }
+
+    });
+
    
-    }
    
 
   },
@@ -186,12 +335,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    wx.showToast({
-      title: '加载中',
-      icon: 'loading',
-      duration: 500
-    })
-    var that = this;
+    var that=this;
     wx.request({
       url: config.service.getuserdataUrl,
       data: {
@@ -205,9 +349,6 @@ Page({
         // 'content-type': 'application/x-www-form-urlencoded'
       },
       success: function (res) {
-        //  that.setData({ textdata: res.data });
-        //  console.log(res.data.data[0]['message_info'].split(','));
-        //   res = JSON.parse(res.data.data[0]['user_info'])
         console.log(res);
         var userInfo = JSON.parse(res.data.userdata[0].user_info)
         var userInfonow = wx.getStorageSync('userInfo');
@@ -217,7 +358,6 @@ Page({
         })
         if (res.data.success) {
           var utl = res.data.data
-
           var mes = res.data.data1
           console.log(mes)
           var mess = []
@@ -251,6 +391,7 @@ Page({
             num: utl.length,
             messag: mess
           })
+        
 
         }
 
@@ -262,7 +403,7 @@ Page({
       complete: function () {
         // complete
       }
-    })
+    }) 
   },
 
   /**
@@ -427,7 +568,28 @@ Page({
   addSchedule:function(){
     var that = this;
 
+ 
     var userInfo = wx.getStorageSync('userInfo');
+    console.log(userInfo.openId)
+    if (!userInfo.openId) {
+      wx.showModal({
+        title: '登录',
+        content: '您还未登录，请前往登录',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            wx.switchTab({
+              url: '../setting/setting',
+            })
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+
+          }
+        }
+      })
+    }
+    else
+    {
     if(that.data.open_id==userInfo.openId)
     {
     
@@ -437,9 +599,19 @@ Page({
         duration: 1000,
         success: function (res) {
           setTimeout(function () {
-            wx.navigateTo({
-              url: '../detail/detail?textarea1=' + that.data.textarea1 + '&times=' + that.data.times + '&taskes1=' + that.data.taskes + '&place=' + that.data.textarea + '&content=' + that.data.textarea2 + '&open_id=' + that.data.open_id + '&create_time=' + that.data.create_time,
-            })
+            if(that.data.textshow)
+            {
+              wx.navigateTo({
+                url: '../detail/detail?textarea1=' + that.data.textarea1 + '&times=' + that.data.times + '&taskes1=' + that.data.taskes + '&place=' + that.data.textarea + '&content=' + that.data.textarea2 + '&open_id=' + that.data.open_id + '&create_time=' + that.data.create_time,
+              })
+            }
+            else
+            {
+              wx.navigateTo({
+                url: '../detail/detail?textarea1=' + that.data.textarea1 + '&content=' + that.data.textarea2 + '&open_id=' + that.data.open_id + '&create_time=' + that.data.create_time+'&tuxiang='+1,
+              })
+            }
+           
           }, 1000);
           
 
@@ -450,62 +622,49 @@ Page({
     }
     else
     {
-      var create_time = util.formatTime(new Date());
-      wx.request({
-        url: config.service.adddataUrl,
-        data: {
-          open_id: userInfo.openId,
-          topic: this.data.textarea1,
-          task_date: this.data.times,
-          task_place: this.data.textarea,
-          task_item: this.data.taskes,
-          task_content: this.data.textarea2,
-          create_time: create_time,
-          share_open_id: this.data.open_id,
-          share_create_time: this.data.create_time,
-          orcreate: 0
-        },
-        method: 'POST', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-        // header: {}, // 设置请求的 header
-        header: {
-          "Content-Type": "application/x-www-form-urlencoded"
-          // "Accept": "application/json"
-        },
-
-
-        success: function (res) {
-          //  that.setData({ textdata: res.data });
-          console.log(res.data);
-          if (res.data.success) {
+     
+     
             wx.showToast({
               title: '添加成功',
               icon: 'success',
               duration: 2000,
               success: function (res) {
-                console.log('s', res)
+              
                 wx.switchTab({
                   url: '/pages/schedule/schedule'
                 })
 
               }
             })
+       
+    }
+    }
+  },
+  writemessage: function () {
+    var userInfo = wx.getStorageSync('userInfo');
+    console.log(userInfo.openId)
+    if (!userInfo.openId) {
+      wx.showModal({
+        title: '登录',
+        content: '您还未登录，请前往登录',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            wx.switchTab({
+              url: '../setting/setting',
+            })
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+
           }
-        },
-        fail: function () {
-          // fail
-          console.log("fail")
-        },
-        complete: function () {
-          // complete
         }
       })
     }
-    
-  },
-  writemessage: function () {
+    else {
     wx.navigateTo({
       url: '../write/write?open_id=' + this.data.open_id + '&create_time=' + this.data.create_time,
     })
+    }
   },
   pickerTap: function () {
     date = new Date();
@@ -743,7 +902,27 @@ Page({
       startDate: startDate
     })
     var userInfo = wx.getStorageSync('userInfo');
-    console.log(userInfo)
+    console.log(userInfo);
+    var userInfo = wx.getStorageSync('userInfo');
+    console.log(userInfo.openId)
+    if (!userInfo.openId) {
+      wx.showModal({
+        title: '登录',
+        content: '您还未登录，请前往登录',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            wx.switchTab({
+              url: '../setting/setting',
+            })
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+
+          }
+        }
+      })
+    }
+    else {
     wx.request({
       url: config.service.insert_remindUrl,
       data:
@@ -783,7 +962,7 @@ Page({
       }
 
     });
-  
+    }
   },
   testSubmit: function (e) {
     console.log(e)

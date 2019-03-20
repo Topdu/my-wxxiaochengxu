@@ -2,7 +2,7 @@
 <!--pages/sharetaskes/sharetaskes.wxml-->
 <view class='notice'>
 		<view style="height: 260rpx;width:90%;margin-bottom:2%;"></view>
-     <view style='height:400rpx;overflow-y:auto;'>
+     <view style='height:400rpx;overflow-y:auto;' hidden='{{!textshow}}'>
 		<view class='title'>{{textarea1}}通知</view>
   	<view class='notice1'>时间：</view>
 		<view class='notice2'>{{times}} </view>
@@ -12,6 +12,11 @@
 		<view class='notice2'>{{taskes}} </view>
 		<view class='notice1'>内容：</view>
 		<view class='notice2'>{{textarea2}} </view>
+    </view>
+       <view style='height:400rpx;overflow-y:auto;' hidden='{{textshow}}'>
+		<view class='title'>{{textarea1?textarea1:'通知'}}</view>
+  	 <view  class='textarea' >        {{textarea2}}</view>
+	
     </view>
 	  <view class='name'>{{nickName}} </view>
     	<view class="userinfo1">
@@ -56,4 +61,6 @@
 </view>
 
 
- 
+    <view class="footer">
+            <view class="footer__text">Copyright © 2018-2019 日常助手</view>
+        </view>

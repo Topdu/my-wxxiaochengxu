@@ -318,29 +318,29 @@ upstream app_weapp {
 } 
 server {
     listen      80;
-    server_name www.haowutbquan.cn;
+    server_name www.域名.cn;
  
     rewrite ^(.*)$ https://$server_name$1 permanent;
 } 
 server {
     listen      443;
-    server_name www.haowutbquan.cn;
+    server_name www.域名.cn;
     ssl on;
-  root /www/wwwroot/www.haowutbquan.cn;
+  root /www/wwwroot/www.域名.cn;
     index  index.php index.html index.htm ;
  include enable-php.conf;
-  ssl_certificate  cert/1788210_haowutbquan.cn.pem;
-    ssl_certificate_key cert/1788210_haowutbquan.cn.key;
+  ssl_certificate  cert/1788210_域名.cn.pem;
+    ssl_certificate_key cert/1788210_域名.cn.key;
     ssl_session_timeout       5m;
     ssl_protocols             TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers               ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA;
     ssl_session_cache         shared:SSL:50m;
     ssl_prefer_server_ciphers on;
  location ~ \.php{
-            root /www/wwwroot/www.haowutbquan.cn;
+            root /www/wwwroot/www.域名.cn;
             fastcgi_pass   127.0.0.1:9000;
             fastcgi_index  index.php;
-            fastcgi_param  SCRIPT_FILENAME  /www/wwwroot/www.haowutbquan.cn$fastcgi_script_name;
+            fastcgi_param  SCRIPT_FILENAME  /www/wwwroot/www.域名.cn$fastcgi_script_name;
             fastcgi_split_path_info ^(.+\.php)(.*)$;    
             fastcgi_param PATH_INFO $fastcgi_path_info;  
             include        fastcgi_params;
@@ -362,9 +362,9 @@ server {
 
 其中这个是你的站点安装目录也要修改为你自己的站点安装目录，也就是前面添加站点的安装目录：
 
-还有**ssl_certificate cert/1788210_haowutbquan.cn.pem;**
+还有**ssl_certificate cert/1788210_域名.cn.pem;**
 
-**ssl_certificate_key cert/1788210_haowutbquan.cn.key;**
+**ssl_certificate_key cert/1788210_域名.cn.key;**
 
 这两句，就是两个证书文件的位置，刚才前面将两个文件放到了cert文件夹下，而这个配置文件nginx.conf是cert文件夹在同一个文件夹下面，所以要配置好文件的路径。
 
@@ -390,11 +390,11 @@ server {
 
 ![](media/a17fdca93f580ae14d019bc919fe276f.png)
 
-其中node_modules不用上传，这个是安装的部署依赖，然后将其他文件上传到/www/wwwroot/www.haowutbquan.cn/weapp文件夹下面
+其中node_modules不用上传，这个是安装的部署依赖，然后将其他文件上传到/www/wwwroot/www.域名.cn/weapp文件夹下面
 
 ![](media/abd20ff05ae1c885942a507ee79afb3b.png)
 
-/www/wwwroot/www.haowutbquan.cn这个是你自己的站点安装目录，如果安装目录下面没有weapp文件夹就新建
+/www/wwwroot/www.域名.cn这个是你自己的站点安装目录，如果安装目录下面没有weapp文件夹就新建
 weapp文件夹（weapp文件夹的名称不能改），然后将server文件夹下的文件（除了node_modules）上传到weapp文件夹下面：
 
 建议使用FileZilla、Transmit 等 FTP 工具连接上服务器然后上传上面的文件
@@ -403,7 +403,7 @@ weapp文件夹（weapp文件夹的名称不能改），然后将server文件夹�
 ```json
 const CONF = {
     port: '5757',
-    rootPathname: ' /www/wwwroot/www.haowutbquan.cn/ ',//修改为自己的站点目录
+    rootPathname: ' /www/wwwroot/www.域名.cn/ ',//修改为自己的站点目录
 
     // 微信小程序 App ID
     appId: '',
@@ -467,7 +467,7 @@ module.exports = CONF
 
 这个时候通过阿里云远程连接连接到服务器，然后切换到root账户登录
 
-然后 cd /www/wwwroot/www.haowutbquan.cn/weapp/
+然后 cd /www/wwwroot/www.域名.cn/weapp/
 
 在weapp目录下面
 
@@ -922,7 +922,7 @@ Message_remind表：
 
 添加上面展示的记录 其中\*/1 \* \* \* \*表示一分钟运行一次
 /www/server/php/56/bin/php表示php安装目录下的php执行文件
-/www/wwwroot/www.haowutbquan.cn/send_remind.php 表示要运行的文件
+/www/wwwroot/www.域名.cn/send_remind.php 表示要运行的文件
 
 然后重启crond服务
 
@@ -1554,29 +1554,29 @@ upstream app_weapp {
 } 
 server {
     listen      80;
-    server_name www.haowutbquan.cn;
+    server_name www.域名.cn;
  
     rewrite ^(.*)$ https://$server_name$1 permanent;
 } 
 server {
     listen      443;
-    server_name www.haowutbquan.cn;
+    server_name www.域名.cn;
     ssl on;
-  root /www/wwwroot/www.haowutbquan.cn;
+  root /www/wwwroot/www.域名.cn;
     index  index.php index.html index.htm ;
  include enable-php.conf;
-  ssl_certificate  cert/1788210_haowutbquan.cn.pem;
-    ssl_certificate_key cert/1788210_haowutbquan.cn.key;
+  ssl_certificate  cert/1788210_域名.cn.pem;
+    ssl_certificate_key cert/1788210_域名.cn.key;
     ssl_session_timeout       5m;
     ssl_protocols             TLSv1 TLSv1.1 TLSv1.2;
     ssl_ciphers               ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA;
     ssl_session_cache         shared:SSL:50m;
     ssl_prefer_server_ciphers on;
  location ~ \.php{
-            root /www/wwwroot/www.haowutbquan.cn;
+            root /www/wwwroot/www.域名.cn;
             fastcgi_pass   127.0.0.1:9000;
             fastcgi_index  index.php;
-            fastcgi_param  SCRIPT_FILENAME  /www/wwwroot/www.haowutbquan.cn$fastcgi_script_name;
+            fastcgi_param  SCRIPT_FILENAME  /www/wwwroot/www.域名.cn$fastcgi_script_name;
             fastcgi_split_path_info ^(.+\.php)(.*)$;    
             fastcgi_param PATH_INFO $fastcgi_path_info;  
             include        fastcgi_params;
@@ -1598,9 +1598,9 @@ server {
 
 其中这个是你的站点安装目录也要修改为你自己的站点安装目录，也就是前面添加站点的安装目录：
 
-还有**ssl_certificate cert/1788210_haowutbquan.cn.pem;**
+还有**ssl_certificate cert/1788210_域名.cn.pem;**
 
-**ssl_certificate_key cert/1788210_haowutbquan.cn.key;**
+**ssl_certificate_key cert/1788210_域名.cn.key;**
 
 这两句，就是两个证书文件的位置，刚才前面将两个文件放到了cert文件夹下，而这个配置文件nginx.conf是cert文件夹在同一个文件夹下面，所以要配置好文件的路径。
 
@@ -1626,11 +1626,11 @@ server {
 
 ![](media/a17fdca93f580ae14d019bc919fe276f.png)
 
-其中node_modules不用上传，这个是安装的部署依赖，然后将其他文件上传到/www/wwwroot/www.haowutbquan.cn/weapp文件夹下面
+其中node_modules不用上传，这个是安装的部署依赖，然后将其他文件上传到/www/wwwroot/www.域名.cn/weapp文件夹下面
 
 ![](media/abd20ff05ae1c885942a507ee79afb3b.png)
 
-/www/wwwroot/www.haowutbquan.cn这个是你自己的站点安装目录，如果安装目录下面没有weapp文件夹就新建
+/www/wwwroot/www.域名.cn这个是你自己的站点安装目录，如果安装目录下面没有weapp文件夹就新建
 weapp文件夹（weapp文件夹的名称不能改），然后将server文件夹下的文件（除了node_modules）上传到weapp文件夹下面：
 
 建议使用FileZilla、Transmit 等 FTP 工具连接上服务器然后上传上面的文件
@@ -1639,7 +1639,7 @@ weapp文件夹（weapp文件夹的名称不能改），然后将server文件夹�
 ```json
 const CONF = {
     port: '5757',
-    rootPathname: ' /www/wwwroot/www.haowutbquan.cn/ ',//修改为自己的站点目录
+    rootPathname: ' /www/wwwroot/www.域名.cn/ ',//修改为自己的站点目录
 
     // 微信小程序 App ID
     appId: '',
@@ -1703,7 +1703,7 @@ module.exports = CONF
 
 这个时候通过阿里云远程连接连接到服务器，然后切换到root账户登录
 
-然后 cd /www/wwwroot/www.haowutbquan.cn/weapp/
+然后 cd /www/wwwroot/www.域名.cn/weapp/
 
 在weapp目录下面
 
@@ -2158,7 +2158,7 @@ Message_remind表：
 
 添加上面展示的记录 其中\*/1 \* \* \* \*表示一分钟运行一次
 /www/server/php/56/bin/php表示php安装目录下的php执行文件
-/www/wwwroot/www.haowutbquan.cn/send_remind.php 表示要运行的文件
+/www/wwwroot/www.域名.cn/send_remind.php 表示要运行的文件
 
 然后重启crond服务
 

@@ -174,16 +174,36 @@ Page({
           if (!res.data.data.length && that.data.count == 0&&!that.data.unlogin) {
             wx.showModal({
               title: '提示',
-              content: '您还未收到日程安排！点击确定进行创建！',
+              content: '无活动通知！点击确定进行创建！',
               success: function (res) {
                 if (res.confirm) {
                   console.log('用户点击确定')
                   that.setData({
                     count: 1
                   })
-                  wx.navigateTo({
-                    url: '../create/create',
+                  var temNames = ['模板输入', '语音输入', '图片输入'];
+
+                  wx.showActionSheet({
+                    itemList: temNames,
+                    success: function (res) {
+                      if (res.tapIndex == 0) {
+                        wx.navigateTo({
+                          url: '../create/create?tapIndex=' + res.tapIndex
+                        })
+                      }
+                      if (res.tapIndex == 1) {
+                        wx.navigateTo({
+                          url: '../yuyin/yuyin'
+                        })
+                      }
+                      if (res.tapIndex == 2) {
+                        wx.navigateTo({
+                          url: '../tuxiang/tuxiang'
+                        })
+                      }
+                    }
                   })
+              
 
                 } else if (res.cancel) {
                   console.log('用户点击取消')
@@ -224,10 +244,21 @@ Page({
           var geta=[];
           for(var i=0;i<res.data.data.length;i++)
           {
+       
             geta.push(res.data.data[i][0])
+          
           }
+        
+         for (var i = 0; i < geta.length; i++) {
+           if(geta[i])
+            if (geta[i].ordelete == 1) {
+              geta[i].color = '#cccccc';
+          }
+          }
+          console.log(geta);
           that.setData({
             tabs: [{ name: "收到栏", url: 'http://haowutbquan.cn:8889/image/shoujianxiangon.png' }, { name: "发布栏", url: 'http://haowutbquan.cn:8889/image/bianjinoon.png' }],
+            imgurl:'http://haowutbquan.cn:8889/image/shoujianxiang.png',
             getdata: geta,
             getdata2: geta,
             show: true,
@@ -303,6 +334,7 @@ Page({
             tabs: [{ name: "收到栏", url: 'http://haowutbquan.cn:8889/image/shoujianxiangnoon.png' }, { name: "发布栏", url: 'http://haowutbquan.cn:8889/image/bianjion.png' }],
             getcreatedata: res.data.data,
             getdata2: res.data.data,
+            imgurl: 'http://haowutbquan.cn:8889/image/bianji.png',
            
           })
 
@@ -357,13 +389,24 @@ Page({
 
   addTemplate: function () {
     var that = this;
-    var temNames = ['发布通知'];
+    var temNames = ['模板输入','语音输入','图片输入'];
+
     wx.showActionSheet({
       itemList: temNames,
       success: function (res) {
-        if (res.tapIndex >= 0) {
+        if (res.tapIndex == 0) {
           wx.navigateTo({
             url: '../create/create?tapIndex=' + res.tapIndex
+          })
+        }
+        if (res.tapIndex == 1) {
+          wx.navigateTo({
+            url: '../yuyin/yuyin'
+          })
+        }
+        if (res.tapIndex == 2) {
+          wx.navigateTo({
+            url: '../tuxiang/tuxiang'
           })
         }
       }
@@ -389,15 +432,57 @@ Page({
    console.log(this.data.getdata2)
     if (that.data.show && that.data.activeIndex==0)
     {
-      wx.navigateTo({
-        url: '../sharedetail/sharedetail?textarea1=' + that.data.getdata2[that.data.id]['topic'] + '&times=' + that.data.getdata2[that.data.id]['task_date'] + '&taskes1=' + that.data.getdata2[that.data.id]['task_item'] + '&place=' + that.data.getdata2[that.data.id]['task_place'] + '&content=' + that.data.getdata2[that.data.id]['task_content'] + '&open_id=' + that.data.getdata2[that.data.id]['open_id'] + '&create_time=' + that.data.getdata2[that.data.id]['create_time'],
-      })
+      if (that.data.getdata2[that.data.id].ordelete==1)
+      {
+        wx.showModal({
+          title: '提示',
+          content: '该通知已被创建者删除',
+          success: function (res) {
+            if (res.confirm) {
+              console.log('用户点击确定')
+            
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+
+            }
+          }
+        })
+      }
+      else
+      {
+        if (that.data.getdata2[that.data.id]['task_date']==null)
+        {
+          wx.navigateTo(
+            {
+              url: '../sharedetail/sharedetail?content=' + this.data.getdata2[that.data.id]['task_content'] + '&open_id=' + that.data.getdata2[that.data.id]['open_id'] + '&create_time=' + that.data.getdata2[that.data.id]['create_time'] + '&tuxiang=' + 1 + '&textarea1=' + that.data.getdata2[that.data.id]['topic'],
+            });
+        }
+        else
+        {
+          wx.navigateTo({
+            url: '../sharedetail/sharedetail?textarea1=' + that.data.getdata2[that.data.id]['topic'] + '&times=' + that.data.getdata2[that.data.id]['task_date'] + '&taskes1=' + that.data.getdata2[that.data.id]['task_item'] + '&place=' + that.data.getdata2[that.data.id]['task_place'] + '&content=' + that.data.getdata2[that.data.id]['task_content'] + '&open_id=' + that.data.getdata2[that.data.id]['open_id'] + '&create_time=' + that.data.getdata2[that.data.id]['create_time'],
+          })
+        }
+
+      }
     }
     else
     {
-      wx.navigateTo({
-        url: '../detail/detail?textarea1=' + that.data.getdata2[that.data.id]['topic'] + '&times=' + that.data.getdata2[that.data.id]['task_date'] + '&taskes1=' + that.data.getdata2[that.data.id]['task_item'] + '&place=' + that.data.getdata2[that.data.id]['task_place'] + '&content=' + that.data.getdata2[that.data.id]['task_content'] + '&open_id=' + that.data.getdata2[that.data.id]['open_id'] + '&create_time=' + that.data.getdata2[that.data.id]['create_time'],
-      })
+      if (that.data.getdata2[that.data.id]['task_date'] == null) 
+      {
+        wx.navigateTo(
+          {
+            url: '../detail/detail?content=' + this.data.getdata2[that.data.id]['task_content'] + '&open_id=' + that.data.getdata2[that.data.id]['open_id'] + '&create_time=' + that.data.getdata2[that.data.id]['create_time'] + '&tuxiang=' + 1 + '&textarea1=' + that.data.getdata2[that.data.id]['topic'],
+          });
+      }
+      else
+      {
+        wx.navigateTo({
+          url: '../detail/detail?textarea1=' + that.data.getdata2[that.data.id]['topic'] + '&times=' + that.data.getdata2[that.data.id]['task_date'] + '&taskes1=' + that.data.getdata2[that.data.id]['task_item'] + '&place=' + that.data.getdata2[that.data.id]['task_place'] + '&content=' + that.data.getdata2[that.data.id]['task_content'] + '&open_id=' + that.data.getdata2[that.data.id]['open_id'] + '&create_time=' + that.data.getdata2[that.data.id]['create_time'],
+        })
+      }
+
+     
     }
   },
   delect: function (res)
@@ -462,6 +547,7 @@ Page({
               // console.log(res);
               if(res.data.success)
               {
+                
                 util.showSuccess("删除成功")
                 if (orcreate == 1) {
                   that.setData({
@@ -474,9 +560,17 @@ Page({
                   for (var i = 0; i < res.data.data.length; i++) {
                     geta.push(res.data.data[i][0])
                   }
+                  var setdata = geta
+                  for (var i = 0; i < setdata.length; i++) {
+                    if (setdata[i])
+                      if (setdata[i].ordelete == 1) {
+                        setdata[i].color = '#cccccc';
+
+                      }
+                  }
                   that.setData({
-                    getdata: geta,
-                    getdata2: geta,
+                    getdata: setdata,
+                    getdata2: setdata,
                   })
                 }
 
@@ -517,18 +611,37 @@ Page({
       {
         wx.showModal({
           title: '提示',
-          content: '您还为创建日程安排！点击确定进行创建！',
+          content: '无活动通知！点击确定进行创建！',
           success: function (res) {
             if (res.confirm) {
               console.log('用户点击确定')
               that.setData({
                 show: false,
                 getdata2: that.data.getcreatedata,
-                count:1
+                count: 1
 
               })
-              wx.navigateTo({
-                url: '../create/create',
+              var temNames = ['模板输入', '语音输入', '图片输入'];
+
+              wx.showActionSheet({
+                itemList: temNames,
+                success: function (res) {
+                  if (res.tapIndex == 0) {
+                    wx.navigateTo({
+                      url: '../create/create?tapIndex=' + res.tapIndex
+                    })
+                  }
+                  if (res.tapIndex == 1) {
+                    wx.navigateTo({
+                      url: '../yuyin/yuyin'
+                    })
+                  }
+                  if (res.tapIndex == 2) {
+                    wx.navigateTo({
+                      url: '../tuxiang/tuxiang'
+                    })
+                  }
+                }
               })
 
             } else if (res.cancel) {
@@ -542,22 +655,34 @@ Page({
             }
           }
         })
+     
         
       }
       that.setData({
         tabs: [{ name: "收到栏", url: 'http://haowutbquan.cn:8889/image/shoujianxiangnoon.png' }, { name: "发布栏", url: 'http://haowutbquan.cn:8889/image/bianjion.png' }],
         show: false,
-        getdata2: that.data.getcreatedata
+        getdata2: that.data.getcreatedata,
+        imgurl: 'http://haowutbquan.cn:8889/image/bianji.png' 
 
       })
     }
     if (e.currentTarget.id == 0) {
       console.log(that.data.getdata.length)
-    
+      var setdata = that.data.getdata
+      for (var i = 0; i < setdata.length;i++)
+      {
+        if (setdata[i])
+        if(setdata[i].ordelete==1)
+        {
+          setdata[i].color='#cccccc';
+        
+        }
+      }
       that.setData({
         tabs: [{ name: "收到栏", url: 'http://haowutbquan.cn:8889/image/shoujianxiangon.png' }, { name: "发布栏", url: 'http://haowutbquan.cn:8889/image/bianjinoon.png' }],
         show: true,
-        getdata2: that.data.getdata
+        getdata2: setdata,
+        imgurl: 'http://haowutbquan.cn:8889/image/shoujianxiang.png' 
       })
    
       

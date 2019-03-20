@@ -168,15 +168,36 @@ Page({
     var create_time = that.data.getdata2[res.currentTarget.id]['creater_create_time']
 
     console.log(this.data.getdata2)
-    if (that.data.getdata2[res.currentTarget.id]['creater_open_id'] == (that.data.getdata2[res.currentTarget.id]['open_id'])) {
-      wx.navigateTo({
-        url: '../sharedetail/sharedetail?textarea1=' + that.data.getdata2[that.data.id]['key1'] + '&times=' + that.data.getdata2[that.data.id]['key2'] + '&taskes1=' + that.data.getdata2[that.data.id]['key6'] + '&place=' + that.data.getdata2[that.data.id]['key3'] + '&content=' + that.data.getdata2[that.data.id]['key4'] + '&open_id=' + that.data.getdata2[that.data.id]['creater_open_id'] + '&create_time=' + that.data.getdata2[that.data.id]['creater_create_time'],
-      })
+    if (that.data.getdata2[res.currentTarget.id]['creater_open_id'] == (that.data.getdata2[res.currentTarget.id]['open_id'])) 
+    {
+
+      if (!that.data.getdata2[that.data.id]['key2'] ) {
+        wx.navigateTo(
+          {
+            url: '../sharedetail/sharedetail?textarea1=' + that.data.getdata2[that.data.id]['key1']+'&content=' + this.data.getdata2[that.data.id]['key4'] + '&open_id=' + that.data.getdata2[that.data.id]['creater_open_id'] + '&create_time=' + that.data.getdata2[that.data.id]['creater_create_time'] + '&textarea1=' + that.data.getdata2[that.data.id]['key1']+ '&tuxiang=' + 1 ,
+          });
+      }
+      else {
+
+        wx.navigateTo({
+          url: '../sharedetail/sharedetail?textarea1=' + that.data.getdata2[that.data.id]['key1'] + '&times=' + that.data.getdata2[that.data.id]['key2'] + '&taskes1=' + that.data.getdata2[that.data.id]['key6'] + '&place=' + that.data.getdata2[that.data.id]['key3'] + '&content=' + that.data.getdata2[that.data.id]['key4'] + '&open_id=' + that.data.getdata2[that.data.id]['creater_open_id'] + '&create_time=' + that.data.getdata2[that.data.id]['creater_create_time'],
+        })
+     
+      }
     }
     else {
+      if (!that.data.getdata2[that.data.id]['key2'] ) {
+  wx.navigateTo(
+    {
+      url: '../detail/detail?textarea1=' + that.data.getdata2[that.data.id]['key1'] +'&content=' + this.data.getdata2[that.data.id]['key4'] + '&open_id=' + that.data.getdata2[that.data.id]['creater_open_id'] + '&create_time=' + that.data.getdata2[that.data.id]['creater_create_time'] + '&textarea1=' + that.data.getdata2[that.data.id]['key1']+ '&tuxiang=' +1,
+    });
+}
+      else {
       wx.navigateTo({
         url: '../detail/detail?textarea1=' + that.data.getdata2[that.data.id]['key1'] + '&times=' + that.data.getdata2[that.data.id]['key2'] + '&taskes1=' + that.data.getdata2[that.data.id]['key6'] + '&place=' + that.data.getdata2[that.data.id]['key3'] + '&content=' + that.data.getdata2[that.data.id]['key4'] + '&open_id=' + that.data.getdata2[that.data.id]['creater_open_id'] + '&create_time=' + that.data.getdata2[that.data.id]['creater_create_time'],
       })
+    
+}
     }
   },
   delect: function (res) {

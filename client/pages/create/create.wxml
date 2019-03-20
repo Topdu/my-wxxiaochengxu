@@ -4,12 +4,12 @@
 <form bind:submit="testSubmit" report-submit="true">
 
  <view class="section">
-  <textarea bindinput="bindTextAreaBlur1" class='inputtopic' auto-height  placeholder="{{textarea1}}"/>
+  <textarea bindinput="bindTextAreaBlur1" class='inputtopic' auto-height  value="{{textarea1}}"/>
 </view>
  <view class='option' ><image src='../../image/time_hl.png'class="iconPre"></image>
- <input  type='text' bindinput='bindTime' placeholder="{{textareatime}}"  class='input'/>  
+ <input  type='text' bindinput='bindTime' value="{{textareatime}}"  class='input'/>  
  </view>
-  <view class='option' ><image src='../../image/place.png' class='iconPre'></image> <input  type='text' bindinput='bindInput1' placeholder="{{textarea}}"  class='input'/>  
+  <view class='option' ><image src='../../image/place.png' class='iconPre'></image> <input  type='text' bindinput='bindInput1' value="{{textarea}}"  class='input'/>  
 </view>
 <view class='option2' ><image src='../../image/icon.png' class='iconPre'></image>
   <checkbox-group class="group" bindchange="checkboxChange">
@@ -41,10 +41,13 @@
   </checkbox-group>
 </view>
 <view class='option1' ><image src='../../image/template.png' class='iconPre'></image> 
-  <textarea bindinput="bindTextAreaBlur2"  placeholder="{{textarea2}}"class='input1' />
+  <textarea bindinput="bindTextAreaBlur2"  value="{{textarea2}}"class='input1' />
 </view>  
 
  <button class='view1' formType="submit" >确定</button>
   </form>
 </scroll-view>
 
+    <view class="footer">
+            <view class="footer__text">Copyright © 2018-2019 日常助手</view>
+        </view>

@@ -148,14 +148,34 @@ Page({
 
     console.log(this.data.getdata2)
     if (that.data.getdata2[that.data.id]['orcreate']==0) {
+
+      if (that.data.getdata2[that.data.id]['task_date'] == null || that.data.getdata2[that.data.id]['task_date'] == 'undefined') {
+        wx.navigateTo(
+          {
+            url: '../sharedetail/sharedetail?textarea1=' + that.data.getdata2[that.data.id]['topic']+'&content=' + this.data.getdata2[that.data.id]['task_content'] + '&open_id=' + that.data.getdata2[that.data.id]['open_id'] + '&create_time=' + that.data.getdata2[that.data.id]['create_time'] + '&tuxiang=' + 1 + '&isdelete=' + 1,
+          });
+      }
+      else {
+     
       wx.navigateTo({
         url: '../sharedetail/sharedetail?textarea1=' + that.data.getdata2[that.data.id]['topic'] + '&times=' + that.data.getdata2[that.data.id]['task_date'] + '&taskes1=' + that.data.getdata2[that.data.id]['task_item'] + '&place=' + that.data.getdata2[that.data.id]['task_place'] + '&content=' + that.data.getdata2[that.data.id]['task_content'] + '&open_id=' + that.data.getdata2[that.data.id]['share_open_id'] + '&create_time=' + that.data.getdata2[that.data.id]['share_create_time']+'&isdelete='+1,
       })
+      }
     }
     else {
-      wx.navigateTo({
-        url: '../detail/detail?textarea1=' + that.data.getdata2[that.data.id]['topic'] + '&times=' + that.data.getdata2[that.data.id]['task_date'] + '&taskes1=' + that.data.getdata2[that.data.id]['task_item'] + '&place=' + that.data.getdata2[that.data.id]['task_place'] + '&content=' + that.data.getdata2[that.data.id]['task_content'] + '&open_id=' + that.data.getdata2[that.data.id]['open_id'] + '&create_time=' + that.data.getdata2[that.data.id]['create_time']+'&isdelete='+1,
-      })
+      if (that.data.getdata2[that.data.id]['task_date'] == null || that.data.getdata2[that.data.id]['task_date'] == 'undefined') {
+        wx.navigateTo(
+          {
+            url: '../detail/detail?textarea1=' + that.data.getdata2[that.data.id]['topic'] +'&content=' + this.data.getdata2[that.data.id]['task_content'] + '&open_id=' + that.data.getdata2[that.data.id]['open_id'] + '&create_time=' + that.data.getdata2[that.data.id]['create_time'] + '&tuxiang=' +1+ '&isdelete=' + 1,
+          });
+      }
+      else {
+        wx.navigateTo({
+          url: '../detail/detail?textarea1=' + that.data.getdata2[that.data.id]['topic'] + '&times=' + that.data.getdata2[that.data.id]['task_date'] + '&taskes1=' + that.data.getdata2[that.data.id]['task_item'] + '&place=' + that.data.getdata2[that.data.id]['task_place'] + '&content=' + that.data.getdata2[that.data.id]['task_content'] + '&open_id=' + that.data.getdata2[that.data.id]['open_id'] + '&create_time=' + that.data.getdata2[that.data.id]['create_time'] + '&isdelete=' + 1,
+        })
+      }
+
+  
     }
   },
   delect: function (res) {

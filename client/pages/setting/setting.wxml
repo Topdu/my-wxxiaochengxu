@@ -27,3 +27,7 @@
  
 <official-account style="width:300px;height:84px"></official-account>
 </view>
+
+   <view class="footer">
+            <view class="footer__text">Copyright © 2018-2019 日常助手</view>
+        </view>

@@ -119,12 +119,16 @@ page
 }
 .notice3
 {
-  font-size: 15px;
-  margin-left: 1%;
-  float:  right;
- color:  #9d9d9d;
- margin-bottom: 25rpx;
-  width: 90%
+font-size:15px;
+margin-left:5%;
+float:right;
+color:#9d9d9d;
+margin-bottom:25rpx;
+width:90%;
+margin-right:5%;
+height:40rpx;
+overflow:hidden;
+
 }
 .title1
 {
@@ -142,7 +146,7 @@ page
 }
 .see
 {
-  width: 30%;
+  width: 25%;
   float: left;
   font-size: 30rpx;
   color:  #9d9d9d
@@ -156,3 +160,12 @@ page
 }
 
 
+.alert1
+{
+
+ 
+  float: right;
+ 
+   font-size: 30rpx;
+   color:  #9d9d9d; 
+}

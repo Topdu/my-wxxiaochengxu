@@ -23,7 +23,15 @@ page {
 
 }
 
-
+.textarea
+{
+  width: 500rpx;
+  
+  margin-left: auto;
+  margin-right: auto;
+   font-size: 16px;
+  text-indent:2em;
+}
 .notice0
 {
   font-size: 30px;

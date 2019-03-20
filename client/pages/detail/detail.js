@@ -42,16 +42,29 @@ Page({
       })
     }
     var userInfonow = wx.getStorageSync('userInfo');
-    that.setData({
-      textarea1: options.textarea1,
-      times: options.times,
-      textarea: options.place,
-      textarea2: options.content,
-      taskes: options.taskes1,
-      open_id: options.open_id,
-      create_time: options.create_time,
-      nickName: userInfonow.nickName
-    })
+    if (options.tuxiang) {
+      that.setData({
+        textarea2: options.content,
+        open_id: options.open_id,
+        create_time: options.create_time,
+        nickName: userInfonow.nickName,
+        textshow: false,
+        textarea1: options.textarea1,
+      })
+    }
+    else {
+      that.setData({
+        textarea1: options.textarea1,
+        times: options.times,
+        textarea: options.place,
+        textarea2: options.content,
+        taskes: options.taskes1,
+        open_id: options.open_id,
+        create_time: options.create_time,
+        nickName: userInfonow.nickName,
+        textshow: true
+      })
+    }
     console.log('that=' + that.data.textarea1)
     console.log(that.data.open_id)
     console.log(that.data.create_time)
@@ -111,13 +124,17 @@ Page({
         //   res = JSON.parse(res.data.data[0]['user_info'])
         console.log(res);
         if (res.data.success) {
-          var utl = res.data.data
+          var utl = res.data.data;
 
+          var seemessage=res.data.seemessage;
           var mes = res.data.data1
           console.log(mes)
           var mess = []
           if (mes)
-          
+            for (var i = 0; i < utl.length ; i++)
+            {
+
+            }
           for (var i = 0; i < mes.length; i++) {
             if (mes[i].message) {
               var messa = {
@@ -147,8 +164,8 @@ Page({
 
           }
           that.setData({
-            avatarUrls: utl,
-            num: utl.length,
+            avatarUrls: seemessage,
+            num: seemessage.length,
             messag: mess
           })
 
@@ -246,38 +263,46 @@ Page({
                       name: userInfo.nickName,
                     })
                     if (res.data.success) {
-                      var utl = res.data.data
+                      var utl = res.data.data;
+
+                      var seemessage = res.data.seemessage;
                       var mes = res.data.data1
                       console.log(mes)
                       var mess = []
                       if (mes)
-                        for (var i = 0; i < mes.length; i++) {
-                          if (mes[i].message) {
-                            var messa = {
-                              nickName: '', avatarUrl: '', message: '', showdelete: 'none', openId: '', showreply: 'none', replymessage: ''
-                            }
-
-                            messa.nickName = utl[i].nickName
-                            messa.avatarUrl = utl[i].avatarUrl
-
-                            messa.message = mes[i].message
-                            messa.openId = utl[i].openId
-                            if (mes[i].replymessage) {
-                              messa.showreply = '';
-                              messa.replymessage = mes[i].replymessage;
-                            }
-                            if (utl[i].openId == userInfonow.openId) {
-                              messa.showdelete = '';
-
-                            }
-
-                            mess.push(messa)
-                          }
+                        for (var i = 0; i < utl.length; i++) {
 
                         }
+                      for (var i = 0; i < mes.length; i++) {
+                        if (mes[i].message) {
+                          var messa = {
+                            nickName: '', avatarUrl: '', message: '', showdelete: 'none', openId: '', showreply: 'none', replymessage: ''
+                          }
+
+                          messa.nickName = utl[i].nickName
+                          messa.avatarUrl = utl[i].avatarUrl
+
+                          messa.message = mes[i].message
+                          messa.openId = utl[i].openId
+
+
+                          if (mes[i].replymessage) {
+
+                            messa.showreply = '';
+                            messa.replymessage = mes[i].replymessage;
+                          }
+                          if (utl[i].openId == userInfonow.openId) {
+                            messa.showdelete = '';
+
+                          }
+
+                          mess.push(messa)
+                        }
+
+                      }
                       that.setData({
-                        avatarUrls: utl,
-                        num: utl.length,
+                        avatarUrls: seemessage,
+                        num: seemessage.length,
                         messag: mess
                       })
                       wx.showToast({
@@ -380,38 +405,46 @@ Page({
                         name: userInfo.nickName,
                       })
                       if (res.data.success) {
-                        var utl = res.data.data
+                        var utl = res.data.data;
+
+                        var seemessage = res.data.seemessage;
                         var mes = res.data.data1
                         console.log(mes)
                         var mess = []
                         if (mes)
-                          for (var i = 0; i < mes.length; i++) {
-                            if (mes[i].message) {
-                              var messa = {
-                                nickName: '', avatarUrl: '', message: '', showdelete: 'none', openId: '', showreply: 'none', replymessage: ''
-                              }
-
-                              messa.nickName = utl[i].nickName
-                              messa.avatarUrl = utl[i].avatarUrl
-
-                              messa.message = mes[i].message
-                              messa.openId = utl[i].openId
-                              if (mes[i].replymessage) {
-                                messa.showreply = '';
-                                messa.replymessage = mes[i].replymessage;
-                              }
-                              if (utl[i].openId == userInfonow.openId) {
-                                messa.showdelete = '';
-
-                              }
-
-                              mess.push(messa)
-                            }
+                          for (var i = 0; i < utl.length; i++) {
 
                           }
+                        for (var i = 0; i < mes.length; i++) {
+                          if (mes[i].message) {
+                            var messa = {
+                              nickName: '', avatarUrl: '', message: '', showdelete: 'none', openId: '', showreply: 'none', replymessage: ''
+                            }
+
+                            messa.nickName = utl[i].nickName
+                            messa.avatarUrl = utl[i].avatarUrl
+
+                            messa.message = mes[i].message
+                            messa.openId = utl[i].openId
+
+
+                            if (mes[i].replymessage) {
+
+                              messa.showreply = '';
+                              messa.replymessage = mes[i].replymessage;
+                            }
+                            if (utl[i].openId == userInfonow.openId) {
+                              messa.showdelete = '';
+
+                            }
+
+                            mess.push(messa)
+                          }
+
+                        }
                         that.setData({
-                          avatarUrls: utl,
-                          num: utl.length,
+                          avatarUrls: seemessage,
+                          num: seemessage.length,
                           messag: mess
                         })
                         wx.showToast({
@@ -513,38 +546,46 @@ Page({
                       name: userInfo.nickName,
                     })
                     if (res.data.success) {
-                      var utl = res.data.data
+                      var utl = res.data.data;
+
+                      var seemessage = res.data.seemessage;
                       var mes = res.data.data1
                       console.log(mes)
                       var mess = []
                       if (mes)
-                        for (var i = 0; i < mes.length; i++) {
-                          if (mes[i].message) {
-                            var messa = {
-                              nickName: '', avatarUrl: '', message: '', showdelete: 'none', openId: '', showreply: 'none', replymessage: ''
-                            }
-
-                            messa.nickName = utl[i].nickName
-                            messa.avatarUrl = utl[i].avatarUrl
-
-                            messa.message = mes[i].message
-                            messa.openId = utl[i].openId
-                            if (mes[i].replymessage) {
-                              messa.showreply = '';
-                              messa.replymessage = mes[i].replymessage;
-                            }
-                            if (utl[i].openId == userInfonow.openId) {
-                              messa.showdelete = '';
-
-                            }
-
-                            mess.push(messa)
-                          }
+                        for (var i = 0; i < utl.length; i++) {
 
                         }
+                      for (var i = 0; i < mes.length; i++) {
+                        if (mes[i].message) {
+                          var messa = {
+                            nickName: '', avatarUrl: '', message: '', showdelete: 'none', openId: '', showreply: 'none', replymessage: ''
+                          }
+
+                          messa.nickName = utl[i].nickName
+                          messa.avatarUrl = utl[i].avatarUrl
+
+                          messa.message = mes[i].message
+                          messa.openId = utl[i].openId
+
+
+                          if (mes[i].replymessage) {
+
+                            messa.showreply = '';
+                            messa.replymessage = mes[i].replymessage;
+                          }
+                          if (utl[i].openId == userInfonow.openId) {
+                            messa.showdelete = '';
+
+                          }
+
+                          mess.push(messa)
+                        }
+
+                      }
                       that.setData({
-                        avatarUrls: utl,
-                        num: utl.length,
+                        avatarUrls: seemessage,
+                        num: seemessage.length,
                         messag: mess
                       })
                       wx.showToast({
@@ -554,6 +595,7 @@ Page({
                       })
 
                     }
+
 
                   },
                   fail: function () {
@@ -620,6 +662,7 @@ Page({
     var textarea = this.data.textarea;
     var textarea2 = this.data.textarea2;
    var openId=this.data.open_id;
+    var textshow = this.data.textshow;
     var create_time = this.data.create_time;
     wx.showActionSheet({
       itemList: temNames,
@@ -631,9 +674,17 @@ Page({
           })
         }
         else if (res.tapIndex == 1) {
-          wx.navigateTo({
-            url: '../taskes/taskes?textarea1=' + textarea1 + '&times=' + times + '&taskes1=' + taskes + '&place=' + textarea + '&content=' + textarea2 + '&open_id=' + openId + '&create_time=' + create_time,
-          })
+          if (textshow) {
+            wx.navigateTo({
+              url: '../taskes/taskes?textarea1=' + textarea1 + '&times=' + times + '&taskes1=' + taskes + '&place=' + textarea + '&content=' + textarea2 + '&open_id=' + openId + '&create_time=' + create_time,
+            })
+          }
+          else {
+            wx.navigateTo({
+              url: '../taskes/taskes?textarea1=' + textarea1 +'&content=' + textarea2 + '&open_id=' + openId + '&create_time=' + create_time + '&tuxiang=' + 1,
+            })
+          }
+
         }
       }
     })
@@ -877,7 +928,7 @@ Page({
       startDate: startDate
     })
     var userInfo = wx.getStorageSync('userInfo');
-    var creater = wx.getStorageSync('nickName');
+   
     console.log(userInfo)
     wx.request({
       url: config.service.insert_remindUrl,
@@ -890,7 +941,7 @@ Page({
         key2: this.data.times,
         key3: this.data.textarea,
         key4: this.data.textarea2,
-        key5: creater,
+        key5: userInfo.nickName,
         creater_open_id: this.data.open_id,
         creater_create_time: this.data.create_time,
         },

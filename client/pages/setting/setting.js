@@ -69,7 +69,9 @@ Page({
             data: res,
           });
           util.showSuccess('登录成功')
-
+          wx.navigateBack({
+            delta: 1
+          })
         },
         fail: err => {
           
@@ -82,7 +84,9 @@ Page({
                 key: 'userInfo',
                 data: res,
               });
-
+              wx.navigateBack({
+                delta: 1
+              })
             },
             fail: err => {
               console.error(err)
@@ -104,7 +108,9 @@ Page({
             key: 'userInfo',
             data: res,
           });
-
+          wx.navigateBack({
+            delta: 1
+          })
         },
         fail: err => {
           console.error(err)
@@ -113,15 +119,26 @@ Page({
       })
     }
   },
-  addTemplate: function () 　{
+  addTemplate: function () {
     var that = this;
-    var temNames = this.data.temNames;
+    var temNames = ['模板输入', '语音输入', '图片输入'];
+
     wx.showActionSheet({
       itemList: temNames,
       success: function (res) {
-        if (res.tapIndex >= 0) {
+        if (res.tapIndex == 0) {
           wx.navigateTo({
-            url: '../create/create?tapIndex=' + res.tapIndex
+            url: '../create/create'
+          })
+        }
+        if (res.tapIndex == 1) {
+          wx.navigateTo({
+            url: '../yuyin/yuyin'
+          })
+        }
+        if (res.tapIndex == 2) {
+          wx.navigateTo({
+            url: '../tuxiang/tuxiang'
           })
         }
       }
